@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.models.Account;
-import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
 import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.recyclers.AccountAdapter;
