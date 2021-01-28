@@ -1,6 +1,12 @@
 plugins {
     id 'com.android.application'
+    //id 'com.chrisney.enigma'
 }
+apply plugin: 'com.chrisney.enigma'
+// Set Enigma options:
+enigma.enabled = true
+enigma.injectFakeKeys = true
+enigma.ignoredClasses = ["com.my.packagename.MainActivity.java"]
 
 android {
     compileSdkVersion 30
@@ -42,6 +48,7 @@ dependencies {
     implementation "net.zetetic:android-database-sqlcipher:4.4.2"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
