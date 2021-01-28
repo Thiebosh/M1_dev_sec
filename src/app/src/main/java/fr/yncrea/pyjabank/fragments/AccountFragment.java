@@ -113,7 +113,7 @@ public class AccountFragment extends Fragment {
                     getActivity().runOnUiThread(() -> Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show());
                 }
             }
-            else Objects.requireNonNull(getActivity()).runOnUiThread(()->mAdapter.setAccounts(accounts));
+            else Objects.requireNonNull(getActivity()).runOnUiThread(() -> mAdapter.setAccounts(accounts));
         });
 
         return view;

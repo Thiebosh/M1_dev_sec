@@ -140,7 +140,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
         final SupportFactory factory = new SupportFactory(key, null,false);
 
         mDatabase = Room.databaseBuilder(getApplicationContext(), BankDatabase.class, "PyjaBank2.db")
-                //.openHelperFactory(factory) //commenter pour passer sur db classique
+                .openHelperFactory(factory) //commenter pour passer sur db classique
                 .build();
 
         loadFragment(new HomeFragment(), true);
