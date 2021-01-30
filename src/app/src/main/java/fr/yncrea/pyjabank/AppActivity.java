@@ -21,7 +21,7 @@ import net.sqlcipher.database.SupportFactory;
 import java.util.Stack;
 import java.util.concurrent.Executors;
 
-import fr.yncrea.pyjabank.fragments.HomeFragment;
+import fr.yncrea.pyjabank.fragments.ConnectFragment;
 import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
 import fr.yncrea.pyjabank.database.BankDatabase;
@@ -101,7 +101,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
 
         switch (item.getItemId()) {
             case disconnect:
-                loadFragment(new HomeFragment(), true);
+                loadFragment(new ConnectFragment(), true);
                 return true; //event totally handled
             case cleanDB:
                 Executors.newSingleThreadExecutor().execute(() -> {
@@ -143,7 +143,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
                 .openHelperFactory(factory) //commenter pour passer sur db classique
                 .build();
 
-        loadFragment(new HomeFragment(), true);
+        loadFragment(new ConnectFragment(), true);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
         super.onPause();
 
         //disconnectUser();
-        loadFragment(new HomeFragment(), true);
+        loadFragment(new ConnectFragment(), true);
     }
 
     @Override
