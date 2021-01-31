@@ -8,9 +8,6 @@ import android.os.Message;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.database.models.User;
@@ -80,18 +77,18 @@ public class RestApi<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public void retrieveStoreAccountList(BankDatabase db) { //(db, username)
-        mFlag = FLAG_READ_ACCOUNT;
-        retrieveStoreData((Call<T>) apiInterface.readAccounts(), db);
+    public void retrieveStoreUser(BankDatabase db, String username, String password) {
+        mFlag = FLAG_READ_USER;
+        retrieveStoreData((Call<T>) apiInterface.readUser(), db, username, password);
     }
 
     @SuppressWarnings("unchecked")
-    public void retrieveStoreUser(BankDatabase db) { //(db, username, password)
-        mFlag = FLAG_READ_USER;
-        retrieveStoreData((Call<T>) apiInterface.readUser(), db);
+    public void retrieveStoreAccountList(BankDatabase db/*, String username*/) {
+        mFlag = FLAG_READ_ACCOUNT;
+        retrieveStoreData((Call<T>) apiInterface.readAccounts(/*username*/), db, null, null);
     }
 
-    private void retrieveStoreData(Call<T> request, BankDatabase db) {//(db, username, optPassword)
+    private void retrieveStoreData(Call<T> request, BankDatabase db, String username, String password) {
         mBackgroundThread.execute(() -> {
             try {
                 Response<T> response = request.execute();
@@ -102,6 +99,8 @@ public class RestApi<T> {
                     switch (mFlag) {
                         case FLAG_READ_USER:
                             if (data instanceof User) {
+                                ((User) data).setUsername(username);
+                                ((User) data).setPassword(password);
                                 db.userDao().insert((User) data);
                             }
                             else throw new Exception("Unexpected type of data");

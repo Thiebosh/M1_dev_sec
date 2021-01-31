@@ -15,8 +15,8 @@ public interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(ArrayList<Account> accounts);// insertAll(accounts, idUser)
 
-    @Query("SELECT * FROM Account") // WHERE id_user = (SELECT id FROM User WHERE name = :user)
-    List<Account> getAll();// getAll(user)
+    @Query("SELECT * FROM Account") // WHERE id_user = (SELECT id FROM User WHERE username = :username)
+    List<Account> getAll();// getAll(username)
 
     @Query("DELETE FROM Account")
     void deleteAll();

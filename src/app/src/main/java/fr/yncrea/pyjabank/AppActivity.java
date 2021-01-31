@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import java.util.Stack;
 import java.util.concurrent.Executors;
 
+import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.fragments.ConnectFragment;
 import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
@@ -110,6 +111,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
      * Section Cycle de vie
      */
 
+    public static User mLogged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
     protected void onPause() {
         super.onPause();
 
-        //disconnectUser();
+        mLogged = null;
         loadFragment(new ConnectFragment(), true);
     }
 
