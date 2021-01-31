@@ -103,6 +103,9 @@ public class ConnectFragment extends Fragment {
             confirm.setEnabled(false);
             Executors.newSingleThreadExecutor().execute(() -> {
                 if (database.userDao().isUser()) {
+
+                    //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
+
                     AppActivity.mLogged = database.userDao().get(username.getText().toString(), password.getText().toString());
 
                     if (AppActivity.mLogged != null) {
