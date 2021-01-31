@@ -13,10 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
-import androidx.room.Room;
-
-import net.sqlcipher.database.SQLiteDatabase;
-import net.sqlcipher.database.SupportFactory;
 
 import java.util.Stack;
 import java.util.concurrent.Executors;
@@ -68,13 +64,6 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
      * Section Utils
      */
 
-    private BankDatabase mDatabase;
-
-    @Override
-    public BankDatabase getDatabase() {
-        return mDatabase;
-    }
-
     @Override
     public boolean haveInternet() {
         NetworkInfo network = ((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
@@ -105,8 +94,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
                 return true; //event totally handled
             case cleanDB:
                 Executors.newSingleThreadExecutor().execute(() -> {
-                    mDatabase.userDao().deleteAll();
-                    mDatabase.accountDao().deleteAll();
+                    BankDatabase.getDatabase().userDao().deleteAll();
+                    BankDatabase.getDatabase().accountDao().deleteAll();
 
                     String str = "database clean";
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show());
@@ -124,24 +113,10 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_app);
 
-        //if pas de fichier,
-        //génère clé avec aléatoire
-        //récupère emprunte cryptographique
-        //enregistre en fichier
-
-        //lit clé chiffrée depuis fichier
-
         //lien bdd avant moindre affichage
-
-        byte[] key = SQLiteDatabase.getBytes("passPhrase".toCharArray());
-        final SupportFactory factory = new SupportFactory(key, null,false);
-
-        mDatabase = Room.databaseBuilder(getApplicationContext(), BankDatabase.class, "PyjaBank2.db")
-                .openHelperFactory(factory) //commenter pour passer sur db classique
-                .build();
+        BankDatabase.buildDatabase(getApplicationContext());
 
         loadFragment(new ConnectFragment(), true);
     }
@@ -157,6 +132,6 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDatabase.close();
+        BankDatabase.getDatabase().close();
     }
 }

@@ -39,7 +39,7 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_cleanDB) {
             mAdapter.setAccounts(null);
-            new RestApi<>(getActivity()).retrieveStoreUser(((Utils) getActivity()).getDatabase());
+            new RestApi<>(getActivity()).retrieveStoreUser(BankDatabase.getDatabase());
             return true;
         }
 
@@ -54,7 +54,7 @@ public class AccountFragment extends Fragment {
 
         //database
         assert getActivity() != null && getContext() != null;
-        BankDatabase database = ((Utils) getActivity()).getDatabase();
+        BankDatabase database = BankDatabase.getDatabase();
 
         //listage des components à manipuler (appels multiples)
         Button refresh = view.findViewById(R.id.frag_acc_btn_refresh);

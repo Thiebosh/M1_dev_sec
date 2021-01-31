@@ -40,7 +40,7 @@ public class ConnectFragment extends Fragment {
 
         //database
         assert getActivity() != null && getContext() != null;
-        BankDatabase database = ((Utils) getActivity()).getDatabase();
+        BankDatabase database = BankDatabase.getDatabase();
 
         //listage des components à manipuler (appels multiples)
         //TextView username = view.findViewById(R.id.frag_conn_text_username);
