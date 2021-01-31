@@ -39,7 +39,9 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_cleanDB) {
             mAdapter.setAccounts(null);
-            new RestApi<>(getActivity()).retrieveStoreUser(BankDatabase.getDatabase());
+            String username = null;//récupérer
+            String password = null;//récupérer
+            new RestApi<>(getActivity()).retrieveStoreUser(BankDatabase.getDatabase(), username, password);
             return true;
         }
 

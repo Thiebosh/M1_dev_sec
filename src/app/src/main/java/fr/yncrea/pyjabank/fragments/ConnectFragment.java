@@ -1,6 +1,7 @@
 package fr.yncrea.pyjabank.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -46,43 +47,43 @@ public class ConnectFragment extends Fragment {
         //TextView username = view.findViewById(R.id.frag_conn_text_username);
         TextView password = view.findViewById(R.id.frag_conn_text_password);
 
-        Button digit0 = view.findViewById(R.id.frag_conn_button_digit0);
-        Button digit1 = view.findViewById(R.id.frag_conn_button_digit1);
-        Button digit2 = view.findViewById(R.id.frag_conn_button_digit2);
-        Button digit3 = view.findViewById(R.id.frag_conn_button_digit3);
-        Button digit4 = view.findViewById(R.id.frag_conn_button_digit4);
-        Button digit5 = view.findViewById(R.id.frag_conn_button_digit5);
-        Button digit6 = view.findViewById(R.id.frag_conn_button_digit6);
-        Button digit7 = view.findViewById(R.id.frag_conn_button_digit7);
-        Button digit8 = view.findViewById(R.id.frag_conn_button_digit8);
-        Button digit9 = view.findViewById(R.id.frag_conn_button_digit9);
+        List<Button> digits = Arrays.asList(view.findViewById(R.id.frag_conn_button_digit0),
+                                            view.findViewById(R.id.frag_conn_button_digit1),
+                                            view.findViewById(R.id.frag_conn_button_digit2),
+                                            view.findViewById(R.id.frag_conn_button_digit3),
+                                            view.findViewById(R.id.frag_conn_button_digit4),
+                                            view.findViewById(R.id.frag_conn_button_digit5),
+                                            view.findViewById(R.id.frag_conn_button_digit6),
+                                            view.findViewById(R.id.frag_conn_button_digit7),
+                                            view.findViewById(R.id.frag_conn_button_digit8),
+                                            view.findViewById(R.id.frag_conn_button_digit9));
         Button erase = view.findViewById(R.id.frag_conn_button_erase);
 
         Button confirm = view.findViewById(R.id.frag_conn_button_confirm);
 
         //initialisation
-        List<Button> digits = Arrays.asList(digit0,digit1,digit2,digit3,digit4,digit5,digit6,digit7,digit8,digit9);
         Collections.shuffle(digits);
-        for (int i = 0; i < digits.size(); ++i) digits.get(i).setText(String.valueOf(i));
+        for (int i = 0; i < digits.size(); ++i) {
+            digits.get(i).setText(String.valueOf(i));
 
-        //réaction aux interactions
-        setOnClick(digit0, password);
-        setOnClick(digit1, password);
-        setOnClick(digit2, password);
-        setOnClick(digit3, password);
-        setOnClick(digit4, password);
-        setOnClick(digit5, password);
-        setOnClick(digit6, password);
-        setOnClick(digit7, password);
-        setOnClick(digit8, password);
-        setOnClick(digit9, password);
+            //réaction aux interactions
+            setOnClick(digits.get(i), password);
+        }
 
         erase.setOnClickListener(v -> password.setText(password.getText().subSequence(0, password.getText().length()-1)));
 
         confirm.setOnClickListener(v -> {
             confirm.setEnabled(false);
             Executors.newSingleThreadExecutor().execute(() -> {
-                if (!database.userDao().isUser()) {
+                if (database.userDao().isUser()) {
+                    //verifier username password
+                    Log.d("testy", "password : "+password.getText().toString());
+                    getActivity().runOnUiThread(() -> {
+                        password.setText("");
+                        ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
+                    });
+                }
+                else {
                     if (!((Utils) getActivity()).haveInternet()) {
                         String str = "Error : internet not active";
                         getActivity().runOnUiThread(() -> {
@@ -92,13 +93,18 @@ public class ConnectFragment extends Fragment {
                         return;
                     }
 
+                    String strUsername = null;//username.getText().toString();
+                    String strPassword = null;//password.getText().toString();
+
+                    //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
+
                     new RestApi<>(getActivity()).setHandler(
                             () -> {
-                                //((UserCredentials) getActivity()).connectUser(username);//si ici, password ok. get username by ui component
+                                password.setText("");
                                 ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
                             },
                             () -> {
-                                String str = "Non existing user";
+                                String str = "Invalid credentials";
                                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                                 confirm.setEnabled(true);
                             },
@@ -107,9 +113,8 @@ public class ConnectFragment extends Fragment {
                                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                                 confirm.setEnabled(true);
                             }
-                    ).retrieveStoreUser(database);// retrieveStoreUser(database, username, password)
+                    ).retrieveStoreUser(database, strUsername, strPassword);
                 }
-                else getActivity().runOnUiThread(() -> ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true));
             });
         });
 
