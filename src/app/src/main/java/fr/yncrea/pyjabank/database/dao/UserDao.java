@@ -15,8 +15,12 @@ public interface UserDao {
     @Query("SELECT CASE COUNT(*) WHEN 0 THEN 0 ELSE 1 END FROM User")
     boolean isUser();
 
+    //boolean exitUser(username, password); //if exitUser(null, null) => updateUser
+
     @Query("SELECT * FROM User WHERE id == (:idUser)")
-    User get(int idUser);
+    User get(int idUser);//remplace by username
+
+    //void updateUser(user);
 
     @Query("DELETE FROM User")
     void deleteAll();

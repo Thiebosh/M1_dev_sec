@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.models.Account;
-import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
 import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.recyclers.AccountAdapter;
@@ -40,7 +39,7 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_cleanDB) {
             mAdapter.setAccounts(null);
-            new RestApi<>(getActivity()).retrieveStoreUser(((Utils) getActivity()).getDatabase());
+            new RestApi<>(getActivity()).retrieveStoreUser(BankDatabase.getDatabase());
             return true;
         }
 
@@ -55,7 +54,7 @@ public class AccountFragment extends Fragment {
 
         //database
         assert getActivity() != null && getContext() != null;
-        BankDatabase database = ((Utils) getActivity()).getDatabase();
+        BankDatabase database = BankDatabase.getDatabase();
 
         //listage des components à manipuler (appels multiples)
         Button refresh = view.findViewById(R.id.frag_acc_btn_refresh);
@@ -113,7 +112,7 @@ public class AccountFragment extends Fragment {
                     getActivity().runOnUiThread(() -> Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show());
                 }
             }
-            else Objects.requireNonNull(getActivity()).runOnUiThread(()->mAdapter.setAccounts(accounts));
+            else Objects.requireNonNull(getActivity()).runOnUiThread(() -> mAdapter.setAccounts(accounts));
         });
 
         return view;
