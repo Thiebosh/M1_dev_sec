@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
+import fr.yncrea.pyjabank.AppActivity;
 import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.interfaces.Utils;
@@ -39,9 +40,7 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_cleanDB) {
             mAdapter.setAccounts(null);
-            String username = null;//récupérer
-            String password = null;//récupérer
-            new RestApi<>(getActivity()).retrieveStoreUser(BankDatabase.getDatabase(), username, password);
+            Executors.newSingleThreadExecutor().execute(() -> BankDatabase.getDatabase().userDao().insert(AppActivity.mLogged));
             return true;
         }
 
@@ -63,36 +62,39 @@ public class AccountFragment extends Fragment {
         RecyclerView recycler = view.findViewById(R.id.frag_acc_recycler_accounts);
 
         //initialisation
+        String str = AppActivity.mLogged.getName() + " " + AppActivity.mLogged.getLastname();
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setSubtitle(str);
+
         mAdapter = new AccountAdapter(null);
         recycler.setAdapter(mAdapter);
 
         //réaction aux interactions
         refresh.setOnClickListener(v -> {
             if (!((Utils) getActivity()).haveInternet()) {
-                String str = "Error : internet not active";
-                Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                String str2 = "Error : internet not active";
+                Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             getActivity().runOnUiThread(() -> refresh.setEnabled(false));
             new RestApi<>(getActivity()).setHandler( //Routine de rafraichissement des données
                 () -> Executors.newSingleThreadExecutor().execute(() -> {
-                    List<Account> accounts = database.accountDao().getAll();// getAll(((UserCredentials) getActivity()).getUsername())
-                    String str = "account reception success : retrieve " + accounts.size() + " accounts";
+                    List<Account> accounts = database.accountDao().getAll(/*AppActivity.mLogged.getUsername()*/);
+                    String str2 = "account reception success : retrieve " + accounts.size() + " accounts";
                     getActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                         mAdapter.setAccounts(accounts);
                         refresh.setEnabled(true);
                     });
                 }),
                 () -> {
-                    String str = "No accounts";
-                    Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                    String str2 = "No accounts";
+                    Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                     refresh.setEnabled(true);
                 },
                 () -> {
-                    String str = "account reception failure";
-                    Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                    String str2 = "account reception failure";
+                    Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                     refresh.setEnabled(true);
                 }
             ).retrieveStoreAccountList(database);
@@ -100,13 +102,7 @@ public class AccountFragment extends Fragment {
 
         //récupération des données bdd
         Executors.newSingleThreadExecutor().execute(() -> {
-            User data = database.userDao().get(1);// get(((UserCredentials) getActivity()).getUsername()) -> convertit nom en objet user
-            String str = data.getName() + " " + data.getLastname();
-            getActivity().runOnUiThread(() ->
-                Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setSubtitle(str)
-            );
-
-            List<Account> accounts = database.accountDao().getAll();// getAll(((UserCredentials) getActivity()).getUsername())
+            List<Account> accounts = database.accountDao().getAll(/*AppActivity.mLogged.getUsername()*/);
             if (accounts.isEmpty()) {// ou wifi désactivé
                 if (((Utils) getActivity()).haveInternet()) Objects.requireNonNull(getActivity()).runOnUiThread(refresh::callOnClick);
                 else {

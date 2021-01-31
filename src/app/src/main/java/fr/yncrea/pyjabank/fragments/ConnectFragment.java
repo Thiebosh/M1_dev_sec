@@ -1,7 +1,6 @@
 package fr.yncrea.pyjabank.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
+import fr.yncrea.pyjabank.AppActivity;
 import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
@@ -44,7 +44,7 @@ public class ConnectFragment extends Fragment {
         BankDatabase database = BankDatabase.getDatabase();
 
         //listage des components à manipuler (appels multiples)
-        //TextView username = view.findViewById(R.id.frag_conn_text_username);
+        TextView username = view.findViewById(R.id.frag_conn_text_username);
         TextView password = view.findViewById(R.id.frag_conn_text_password);
 
         List<Button> digits = Arrays.asList(view.findViewById(R.id.frag_conn_button_digit0),
@@ -76,12 +76,21 @@ public class ConnectFragment extends Fragment {
             confirm.setEnabled(false);
             Executors.newSingleThreadExecutor().execute(() -> {
                 if (database.userDao().isUser()) {
-                    //verifier username password
-                    Log.d("testy", "password : "+password.getText().toString());
-                    getActivity().runOnUiThread(() -> {
-                        password.setText("");
-                        ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
-                    });
+                    AppActivity.mLogged = database.userDao().get(username.getText().toString(), password.getText().toString());
+
+                    if (AppActivity.mLogged != null) {
+                        getActivity().runOnUiThread(() -> {
+                            password.setText("");
+                            ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
+                        });
+                    }
+                    else {
+                        String str = "user doesn't exist";
+                        getActivity().runOnUiThread(() -> {
+                            Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                            confirm.setEnabled(true);
+                        });
+                    }
                 }
                 else {
                     if (!((Utils) getActivity()).haveInternet()) {
@@ -93,18 +102,20 @@ public class ConnectFragment extends Fragment {
                         return;
                     }
 
-                    String strUsername = null;//username.getText().toString();
-                    String strPassword = null;//password.getText().toString();
+                    String _username = username.getText().toString();
+                    String _password = password.getText().toString();
 
                     //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
 
                     new RestApi<>(getActivity()).setHandler(
                             () -> {
                                 password.setText("");
+                                //save user instance ?
+                                AppActivity.mLogged = database.userDao().get(_username, _password);
                                 ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
                             },
                             () -> {
-                                String str = "Invalid credentials";
+                                String str = "No user exist";
                                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                                 confirm.setEnabled(true);
                             },
@@ -113,7 +124,7 @@ public class ConnectFragment extends Fragment {
                                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                                 confirm.setEnabled(true);
                             }
-                    ).retrieveStoreUser(database, strUsername, strPassword);
+                    ).retrieveStoreUser(database, _username, _password);
                 }
             });
         });
