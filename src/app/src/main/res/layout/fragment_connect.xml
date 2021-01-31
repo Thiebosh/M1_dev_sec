@@ -45,6 +45,7 @@
         android:layout_marginTop="50dp"
         android:ems="10"
         android:enabled="false"
+        android:hint="Use numeric keypad"
         android:inputType="numberPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

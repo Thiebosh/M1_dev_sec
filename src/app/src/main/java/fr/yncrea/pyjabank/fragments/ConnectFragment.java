@@ -70,7 +70,10 @@ public class ConnectFragment extends Fragment {
             setOnClick(digits.get(i), password);
         }
 
-        erase.setOnClickListener(v -> password.setText(password.getText().subSequence(0, password.getText().length()-1)));
+        erase.setOnClickListener(v -> {
+            CharSequence str = password.getText();
+            if (str.length() > 0) password.setText(str.subSequence(0, str.length()-1));
+        });
 
         confirm.setOnClickListener(v -> {
             confirm.setEnabled(false);
@@ -110,7 +113,6 @@ public class ConnectFragment extends Fragment {
                     new RestApi<>(getActivity()).setHandler(
                             () -> {
                                 password.setText("");
-                                //save user instance ?
                                 AppActivity.mLogged = database.userDao().get(_username, _password);
                                 ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
                             },
