@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -16,7 +21,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public class RestApi<T> {
 
@@ -26,6 +34,10 @@ public class RestApi<T> {
 
         @GET("m1/accounts")
         Call<ArrayList<Account>> readAccounts();//(@Field("username") String username)
+
+        @FormUrlEncoded
+        @POST("m1/accounts")
+        Call<JsonObject> createAccount(@Field("account") Account account);//(@Field("username") String username, ...)
     }
 
     private static final ApiRoutes apiInterface = new Retrofit.Builder()
@@ -40,6 +52,7 @@ public class RestApi<T> {
     private int mFlag = -1;
     private static final int FLAG_READ_USER = 0;
     private static final int FLAG_READ_ACCOUNT = 1;
+    private static final int FLAG_SEND_ACCOUNT = 2;
 
     private Handler mHandler;
     private static final int EXECUTION_RESULT = 0;
@@ -80,19 +93,28 @@ public class RestApi<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public void retrieveStoreUser(final BankDatabase db, final String username, final String password) {
+    public void retrieveStoreUser(@NonNull final BankDatabase db, final String username, final String password) {
         mFlag = FLAG_READ_USER;
-        retrieveStoreData((Call<T>) apiInterface.readUser(), db, username, password);
+        retrieveStoreData((Call<T>) apiInterface.readUser(), db,
+                username, password, null);
     }
 
     @SuppressWarnings("unchecked")
-    public void retrieveStoreAccountList(final BankDatabase db/*, final String username*/) {
+    public void retrieveStoreAccountList(@NonNull final BankDatabase db/*, final String username*/) {
         mFlag = FLAG_READ_ACCOUNT;
-        retrieveStoreData((Call<T>) apiInterface.readAccounts(/*username*/), db, null, null);
+        retrieveStoreData((Call<T>) apiInterface.readAccounts(/*username*/), db,
+                null, null, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void sendStoreAccount(@NonNull final BankDatabase db, @NonNull final Account account) {
+        mFlag = FLAG_SEND_ACCOUNT;
+        retrieveStoreData((Call<T>) apiInterface.createAccount(account), db,
+                null, null, account);
     }
 
     private void retrieveStoreData(final Call<T> request, final BankDatabase db,
-                                   final String username, final String password) {
+                                   final String username, final String password, final Account account) {
         mBackgroundThread.execute(() -> {
             try {
                 Response<T> response = request.execute();
@@ -117,6 +139,12 @@ public class RestApi<T> {
                                 db.accountDao().insertAll(typedData);
                             }
                             else throw new Exception(ERROR_TYPE);
+                            break;
+
+                        case FLAG_SEND_ACCOUNT:
+                            Log.d("testy", "Classe : "+data.getClass());
+                            Log.d("testy", "Contenu : "+data);
+                            db.accountDao().insert(account);
                             break;
 
                         default:

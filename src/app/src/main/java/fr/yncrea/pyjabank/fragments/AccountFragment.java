@@ -116,6 +116,11 @@ public class AccountFragment extends Fragment {
             else getActivity().runOnUiThread(() -> mAdapter.setAccounts(accounts));
         });
 
+        /*view.findViewById(R.id.button).setOnClickListener(v -> {
+            new RestApi<>(getActivity()).sendStoreAccount(database, new Account());
+            //refresh.callOnClick();
+        });*/
+
         return view;
     }
 }

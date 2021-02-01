@@ -7,8 +7,8 @@
 
 
     <!-- Menus -->
-    <string name="menu_glob_exit">Disconnect</string>
-    <string name="menu_glob_clear">Clean DB</string>
+    <string name="menu_app_exit">Disconnect</string>
+    <string name="menu_app_clear">Clean DB</string>
 
 
     <!-- Activities -->

@@ -5,8 +5,8 @@
 
 
     <!-- Menus -->
-    <string name="menu_glob_exit">Déconnexion</string>
-    <string name="menu_glob_clear">Vider BDD</string>
+    <string name="menu_app_exit">Déconnexion</string>
+    <string name="menu_app_clear">Vider BDD</string>
 
 
     <!-- Activities -->

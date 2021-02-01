@@ -89,7 +89,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         if (menu instanceof MenuBuilder) ((MenuBuilder) menu).setOptionalIconsVisible(true);
-        getMenuInflater().inflate(R.menu.global, menu);
+        getMenuInflater().inflate(R.menu.app, menu);
         return true;
     }
 

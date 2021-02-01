@@ -13,6 +13,9 @@ import fr.yncrea.pyjabank.database.models.Account;
 @Dao
 public interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Account account);// insert(account, idUser)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(ArrayList<Account> accounts);// insertAll(accounts, idUser)
 
     @Query("SELECT * FROM Account") // WHERE id_user = (SELECT id FROM User WHERE username = :username)
