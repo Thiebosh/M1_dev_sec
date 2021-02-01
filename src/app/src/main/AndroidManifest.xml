@@ -13,14 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PyjaBank">
 
-        <activity android:name=".HomeActivity" android:launchMode="singleTop">
+        <activity
+            android:name=".HomeActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".AppActivity" android:launchMode="singleTop"/>
+        <activity
+            android:name=".AppActivity"
+            android:launchMode="singleTop"
+            android:exported="false"/>
     </application>
 
 </manifest>

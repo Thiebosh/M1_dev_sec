@@ -1,5 +1,6 @@
 package fr.yncrea.pyjabank.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,11 +32,15 @@ import fr.yncrea.pyjabank.database.BankDatabase;
 
 public class ConnectFragment extends Fragment {
 
+    private ConstraintLayout mKeypad;
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        mKeypad.setVisibility(View.GONE);
         menu.findItem(R.id.menu_disconnect).setVisible(false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //attribution des layouts et éléments clés
@@ -51,6 +57,8 @@ public class ConnectFragment extends Fragment {
 
         TextInputLayout usernameField = view.findViewById(R.id.frag_conn_text_username_input);
         TextInputLayout passwordField = view.findViewById(R.id.frag_conn_text_password_input);
+
+        mKeypad = view.findViewById(R.id.frag_conn_const_keypad);
 
         List<Button> digits = Arrays.asList(view.findViewById(R.id.frag_conn_button_digit0),
                                             view.findViewById(R.id.frag_conn_button_digit1),
@@ -80,15 +88,25 @@ public class ConnectFragment extends Fragment {
             if (str.length() > 0) password.setText(str.subSequence(0, str.length()-1));
         });
 
+        view.findViewById(R.id.frag_conn_const_global).setOnClickListener(v-> mKeypad.setVisibility(View.GONE));
+
         username.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
             if (!focus && isUsernameInvalid(username.getText().length())) {
                 msg = "Username too short";
             }
+            else mKeypad.setVisibility(View.GONE);//if (focus)
             usernameField.setError(msg);
         });
 
+        password.setOnTouchListener((v, event) -> {
+            mKeypad.setVisibility(View.VISIBLE);
+            return true; //intercepte evenement
+        });
+
         confirm.setOnClickListener(v -> {
+            mKeypad.setVisibility(View.GONE);
+
             boolean isValid = true;
             if (isUsernameInvalid(username.getText().length())) {
                 isValid = false;
