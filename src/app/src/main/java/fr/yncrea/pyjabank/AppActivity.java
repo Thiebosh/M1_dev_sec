@@ -120,7 +120,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
                     BankDatabase.getDatabase().userDao().deleteAll();
                     BankDatabase.getDatabase().accountDao().deleteAll();
 
-                    String str = "database clean";
+                    String str = getString(R.string.toast_db_clean);
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show());
                 });
                 return false; //fragment can do more with it
@@ -140,7 +140,6 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
-        //lien bdd avant moindre affichage
         BankDatabase.buildDatabase(getApplicationContext());
 
         loadFragment(new ConnectFragment(), true);

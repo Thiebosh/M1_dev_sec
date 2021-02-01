@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Application -->
+    <string name="app_default_user">Visiteur</string>
+
+
+    <!-- Menus -->
+    <string name="menu_glob_exit">Déconnexion</string>
+    <string name="menu_glob_clear">Vider BDD</string>
+
+
+    <!-- Activities -->
+    <string name="act_home_button_next">Suivant</string>
+
+
+    <!-- Fragments -->
+    <string name="frag_conn_hint_username">Entrez votre pseudonyme</string>
+    <string name="frag_conn_hint_password">Entrez votre mot de passe</string>
+    <string name="frag_conn_error_username">Pseudonyme trop court</string>
+    <string name="frag_conn_error_password">Mot de passe trop court</string>
+    <string name="frag_conn_button_erase">Effacer</string>
+    <string name="frag_conn_button_next">Valider</string>
+
+    <string name="frag_acc_text_title">Vos comptes</string>
+    <string name="frag_acc_button_refresh">Rafraichir</string>
+
+
+    <!-- Toasts -->
+    <string name="toast_db_clean">Données locale supprimées</string>
+
+    <string name="toast_invalid_identifiers">Identifiants erronés</string>
+    <string name="toast_invalid_internet">Erreur : internet non actif</string>
+
+    <string name="toast_api_success_accounts">Succès : Réception de <xliff:g id="nb_accounts">%1$d</xliff:g> comptes</string>
+    <string name="toast_api_empty_user">Pas d\'utilisateur</string>
+    <string name="toast_api_empty_accounts">Pas de compte</string>
+    <string name="toast_api_failure">Erreur : réessayez s\'il vous plaît</string>
+</resources>

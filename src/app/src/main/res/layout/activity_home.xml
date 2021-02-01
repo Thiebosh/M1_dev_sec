@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,17 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo3" />
-
-    <Button
-        android:id="@+id/act_home_button_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:srcCompat="@drawable/logo3"
+        android:contentDescription="@string/act_home_image_description" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -34,7 +25,8 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/border_gray"
-        android:paddingRight="1dp"
+        android:paddingStart="1dp"
+        android:paddingEnd="1dp"
         app:layout_constraintBottom_toTopOf="@+id/act_home_button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,9 +44,18 @@
                 android:id="@+id/act_home_text_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TextView" />
+                android:gravity="center" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/act_home_button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/act_home_button_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

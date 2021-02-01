@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +21,6 @@ import fr.yncrea.pyjabank.AppActivity;
 import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.interfaces.Utils;
-import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.recyclers.AccountAdapter;
 import fr.yncrea.pyjabank.services.api.RestApi;
 import fr.yncrea.pyjabank.database.BankDatabase;
@@ -69,7 +67,7 @@ public class AccountFragment extends Fragment {
         //réaction aux interactions
         refresh.setOnClickListener(v -> {
             if (!((Utils) getActivity()).haveInternet()) {
-                String str2 = "Error : internet not active";
+                String str2 = getString(R.string.toast_invalid_internet);
                 Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -78,7 +76,7 @@ public class AccountFragment extends Fragment {
             new RestApi<>(getActivity()).setHandler( //Routine de rafraichissement des données
                 () -> Executors.newSingleThreadExecutor().execute(() -> {
                     List<Account> accounts = database.accountDao().getAll(/*AppActivity.mLogged.getUsername()*/);
-                    String str2 = "account reception success : retrieve " + accounts.size() + " accounts";
+                    String str2 = getString(R.string.toast_api_success_accounts, accounts.size());
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                         mAdapter.setAccounts(accounts);
@@ -86,12 +84,12 @@ public class AccountFragment extends Fragment {
                     });
                 }),
                 () -> {
-                    String str2 = "No accounts";
+                    String str2 = getString(R.string.toast_api_empty_accounts);
                     Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                     refresh.setEnabled(true);
                 },
                 () -> {
-                    String str2 = "account reception failure";
+                    String str2 = getString(R.string.toast_api_failure);
                     Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                     refresh.setEnabled(true);
                 }
@@ -104,7 +102,7 @@ public class AccountFragment extends Fragment {
             if (accounts.isEmpty()) {// ou wifi désactivé
                 if (((Utils) getActivity()).haveInternet()) Objects.requireNonNull(getActivity()).runOnUiThread(refresh::callOnClick);
                 else {
-                    String str2 = "Error : internet not active";
+                    String str2 = getString(R.string.toast_invalid_internet);
                     getActivity().runOnUiThread(() -> Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show());
                 }
             }

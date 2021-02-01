@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Application -->
+    <integer name="length_min_username">2</integer>
+    <integer name="length_min_password">3</integer>
+
+    <!-- Animation -->
     <integer name="anim_duration_medium">400</integer>
 </resources>

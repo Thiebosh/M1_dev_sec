@@ -13,12 +13,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        StringBuilder str = new StringBuilder();
-        str.append("Ceci est un démonstrateur sur le thème de la sécurité\n");
-        str.append("Cette application communique de façon sécurisée avec une api rest\n");
-        str.append("Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée\n");
-        str.append("blablabla");
-        ((TextView) findViewById(R.id.act_home_text_intro)).setText(str.toString());
+        String str = "Ceci est un démonstrateur sur le thème de la sécurité\n" +
+                "Cette application communique de façon sécurisée avec une api rest\n" +
+                "Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée\n" +
+                "blablabla";
+        ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
 
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
             startActivity((new Intent(HomeActivity.this, AppActivity.class))

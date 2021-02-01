@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SupportFactory;
 
+import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.dao.AccountDao;
 import fr.yncrea.pyjabank.database.dao.UserDao;
 import fr.yncrea.pyjabank.database.models.Account;
@@ -40,7 +41,7 @@ public abstract class BankDatabase extends RoomDatabase {
         byte[] key = SQLiteDatabase.getBytes("passPhrase".toCharArray());
         final SupportFactory factory = new SupportFactory(key, null,false);
 
-        INSTANCE = Room.databaseBuilder(context.getApplicationContext(), BankDatabase.class, "PyjaBank.db")
+        INSTANCE = Room.databaseBuilder(context.getApplicationContext(), BankDatabase.class, context.getString(R.string.app_db_name))
                 .openHelperFactory(factory) //commenter pour passer sur db classique
                 .addMigrations(MIGRATION_1_2)
                 .build();

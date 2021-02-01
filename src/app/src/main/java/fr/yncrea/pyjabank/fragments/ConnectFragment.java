@@ -93,7 +93,7 @@ public class ConnectFragment extends Fragment {
         username.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
             if (!focus && isUsernameInvalid(username.getText().length())) {
-                msg = "Username too short";
+                msg = getString(R.string.frag_conn_error_username);
             }
             else mKeypad.setVisibility(View.GONE);//if (focus)
             usernameField.setError(msg);
@@ -110,21 +110,23 @@ public class ConnectFragment extends Fragment {
             boolean isValid = true;
             if (isUsernameInvalid(username.getText().length())) {
                 isValid = false;
-                usernameField.setError("Username too short");
+                usernameField.setError(getString(R.string.frag_conn_error_username));
             }
             if (isPasswordInvalid(password.getText().length())) {
                 isValid = false;
-                passwordField.setError("Password too short");
+                passwordField.setError(getString(R.string.frag_conn_error_password));
             }
             if (!isValid) return;
 
             confirm.setEnabled(false);
             Executors.newSingleThreadExecutor().execute(() -> {
+                String _username = username.getText().toString();
+                String _password = password.getText().toString();
+
+                //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
+
                 if (database.userDao().isUser()) {
-
-                    //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
-
-                    AppActivity.mLogged = database.userDao().get(username.getText().toString(), password.getText().toString());
+                    AppActivity.mLogged = database.userDao().get(_username, _password);
 
                     if (AppActivity.mLogged != null) {
                         getActivity().runOnUiThread(() -> {
@@ -136,7 +138,7 @@ public class ConnectFragment extends Fragment {
                     }
 
                     //else {
-                    String str = "user doesn't exist";
+                    String str = getString(R.string.toast_invalid_identifiers);
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                         confirm.setEnabled(true);
@@ -147,7 +149,7 @@ public class ConnectFragment extends Fragment {
 
                 //else {
                 if (!((Utils) getActivity()).haveInternet()) {
-                    String str = "Error : internet not active";
+                    String str = getString(R.string.toast_invalid_internet);
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                         confirm.setEnabled(true);
@@ -155,25 +157,24 @@ public class ConnectFragment extends Fragment {
                     return;
                 }
 
-                String _username = username.getText().toString();
-                String _password = password.getText().toString();
-
-                //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
-
                 new RestApi<>(getActivity()).setHandler(
                         () -> {
                             username.setText("");
                             password.setText("");
-                            Executors.newSingleThreadExecutor().execute(() -> AppActivity.mLogged = database.userDao().get(_username, _password));
-                            ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
+                            Executors.newSingleThreadExecutor().execute(() -> {
+                                AppActivity.mLogged = database.userDao().get(_username, _password);
+                                getActivity().runOnUiThread(() ->
+                                    ((FragmentSwitcher) getActivity())
+                                            .loadFragment(new AccountFragment(), true));
+                            });
                         },
                         () -> {
-                            String str = "No user exist";
+                            String str = getString(R.string.toast_api_empty_user);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                             confirm.setEnabled(true);
                         },
                         () -> {
-                            String str = "Execution failure : please, retry";
+                            String str = getString(R.string.toast_api_failure);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                             confirm.setEnabled(true);
                         }
@@ -190,7 +191,7 @@ public class ConnectFragment extends Fragment {
         super.onResume();
 
         assert getActivity() != null;
-        String str = "Visitor";
+        String str = getString(R.string.app_default_user);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setSubtitle(str);
     }
 
@@ -202,10 +203,10 @@ public class ConnectFragment extends Fragment {
     }
 
     private boolean isUsernameInvalid(final int length) {
-        return length < 3;
+        return length < getContext().getResources().getInteger((R.integer.length_min_username));
     }
 
     private boolean isPasswordInvalid(final int length) {
-        return length < 4;
+        return length < getContext().getResources().getInteger((R.integer.length_min_password));
     }
 }

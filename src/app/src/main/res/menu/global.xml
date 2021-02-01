@@ -8,13 +8,13 @@
         android:id="@+id/menu_disconnect"
         android:icon="@drawable/ic_exit"
         android:orderInCategory="0"
-        android:title="Disconnect"
+        android:title="@string/menu_glob_exit"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_cleanDB"
         android:icon="@drawable/ic_delete"
         android:orderInCategory="1"
-        android:title="Clean DB" />
+        android:title="@string/menu_glob_clear" />
 
 </menu>

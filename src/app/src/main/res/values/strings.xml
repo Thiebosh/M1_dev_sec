@@ -1,3 +1,41 @@
-<resources>
-    <string name="app_name">PyjaBank</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Application -->
+    <string name="app_name" translatable="false">PyjaBank</string>
+    <string name="app_db_name" translatable="false">PyjaBank.db</string>
+    <string name="app_default_user">Visitor</string>
+
+
+    <!-- Menus -->
+    <string name="menu_glob_exit">Disconnect</string>
+    <string name="menu_glob_clear">Clean DB</string>
+
+
+    <!-- Activities -->
+    <string name="act_home_image_description" translatable="false">Logo</string>
+    <string name="act_home_button_next">Next</string>
+
+
+    <!-- Fragments -->
+    <string name="frag_conn_hint_username">Enter your username</string>
+    <string name="frag_conn_hint_password">Enter your password</string>
+    <string name="frag_conn_error_username">Username too short</string>
+    <string name="frag_conn_error_password">Password too short</string>
+    <string name="frag_conn_button_erase">Erase</string>
+    <string name="frag_conn_button_next">Validate</string>
+
+    <string name="frag_acc_text_title">Your accounts</string>
+    <string name="frag_acc_button_refresh">Refresh</string>
+
+
+    <!-- Toasts -->
+    <string name="toast_db_clean">Local data deleted</string>
+
+    <string name="toast_invalid_identifiers">Bad identifiers</string>
+    <string name="toast_invalid_internet">Error : internet not active</string>
+
+    <string name="toast_api_success_accounts">Success : Receipt of <xliff:g id="nb_accounts">%1$d</xliff:g> accounts</string>
+    <string name="toast_api_empty_user">No user</string>
+    <string name="toast_api_empty_accounts">No account</string>
+    <string name="toast_api_failure">Error : please try again</string>
 </resources>
