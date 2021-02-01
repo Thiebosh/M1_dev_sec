@@ -9,7 +9,7 @@ import java.util.Stack;
  */
 public interface FragmentSwitcher {
 
-    Stack<Fragment> mFragmentStack = new Stack<>();
+    Stack<Fragment> mFragStack = new Stack<>();
 
     /**
      * Trigger a navigation to the specified fragment, optionally adding a transaction to the back

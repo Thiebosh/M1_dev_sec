@@ -17,13 +17,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountHolder> {
     private final RecyclerView mContainer;
     private List<Account> mAccounts;
 
-    public AccountAdapter(RecyclerView container, List<Account> accounts) {
+    public AccountAdapter(final RecyclerView container, final List<Account> accounts) {
         this.mContainer = container;
         this.mContainer.setAdapter(this);
         this.setAccounts(accounts);
     }
 
-    public void setAccounts(List<Account> accounts) {
+    public void setAccounts(final List<Account> accounts) {
         mAccounts = (accounts != null ? accounts : new ArrayList<>());
         this.notifyDataSetChanged();
         mContainer.scheduleLayoutAnimation();
@@ -31,13 +31,14 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountHolder> {
 
     @NonNull
     @Override
-    public AccountHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AccountHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_account, parent, false));
+    public AccountHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+        return new AccountHolder(LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.item_account, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AccountHolder holder, int position) {
-        //call anim here?
+    public void onBindViewHolder(@NonNull final AccountHolder holder, final int position) {
         holder.setInitialDisplay(mAccounts.get(position));
     }
 

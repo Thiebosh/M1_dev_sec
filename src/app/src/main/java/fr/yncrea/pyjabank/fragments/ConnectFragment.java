@@ -20,34 +20,35 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.AppActivity;
 import fr.yncrea.pyjabank.R;
-import fr.yncrea.pyjabank.interfaces.Utils;
 import fr.yncrea.pyjabank.interfaces.FragmentSwitcher;
-import fr.yncrea.pyjabank.services.api.RestApi;
+import fr.yncrea.pyjabank.services.RestApi;
 import fr.yncrea.pyjabank.database.BankDatabase;
+import fr.yncrea.pyjabank.services.Utils;
 
 public class ConnectFragment extends Fragment {
 
     private ConstraintLayout mKeypad;
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(final Menu menu) {
         mKeypad.setVisibility(View.GONE);
         menu.findItem(R.id.menu_disconnect).setVisible(false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
         //attribution des layouts et éléments clés
         View view = inflater.inflate(R.layout.fragment_connect, container, false);
         setHasOptionsMenu(true);//call onPrepareOptionsMenu
 
-        //database
+        //shortcuts
         assert getActivity() != null && getContext() != null;
         BankDatabase database = BankDatabase.getDatabase();
 
@@ -126,13 +127,14 @@ public class ConnectFragment extends Fragment {
                 //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
 
                 if (database.userDao().isUser()) {
-                    AppActivity.mLogged = database.userDao().get(_username, _password);
+                    AppActivity.setLogged(database.userDao().get(_username, _password));
 
-                    if (AppActivity.mLogged != null) {
+                    if (AppActivity.getLogged() != null) {
                         getActivity().runOnUiThread(() -> {
                             username.setText("");
                             password.setText("");
-                            ((FragmentSwitcher) getActivity()).loadFragment(new AccountFragment(), true);
+                            ((FragmentSwitcher) getActivity())
+                                    .loadFragment(new AccountFragment(), true);
                         });
                         return;
                     }
@@ -148,7 +150,7 @@ public class ConnectFragment extends Fragment {
                 }
 
                 //else {
-                if (!((Utils) getActivity()).haveInternet()) {
+                if (!Utils.haveInternet(getContext())) {
                     String str = getString(R.string.toast_invalid_internet);
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
@@ -162,7 +164,7 @@ public class ConnectFragment extends Fragment {
                             username.setText("");
                             password.setText("");
                             Executors.newSingleThreadExecutor().execute(() -> {
-                                AppActivity.mLogged = database.userDao().get(_username, _password);
+                                AppActivity.setLogged(database.userDao().get(_username, _password));
                                 getActivity().runOnUiThread(() ->
                                     ((FragmentSwitcher) getActivity())
                                             .loadFragment(new AccountFragment(), true));
@@ -190,9 +192,9 @@ public class ConnectFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        assert getActivity() != null;
+        assert getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
         String str = getString(R.string.app_default_user);
-        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setSubtitle(str);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
@@ -203,10 +205,10 @@ public class ConnectFragment extends Fragment {
     }
 
     private boolean isUsernameInvalid(final int length) {
-        return length < getContext().getResources().getInteger((R.integer.length_min_username));
+        return length < getContext().getResources().getInteger(R.integer.length_min_username);
     }
 
     private boolean isPasswordInvalid(final int length) {
-        return length < getContext().getResources().getInteger((R.integer.length_min_password));
+        return length < getContext().getResources().getInteger(R.integer.length_min_password);
     }
 }
