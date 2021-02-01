@@ -25,6 +25,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:stackFromBottom="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/frag_acc_btn_refresh"

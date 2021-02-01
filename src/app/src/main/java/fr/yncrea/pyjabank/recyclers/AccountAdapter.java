@@ -14,15 +14,19 @@ import fr.yncrea.pyjabank.database.models.Account;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountHolder> {
 
+    private final RecyclerView mContainer;
     private List<Account> mAccounts;
 
-    public AccountAdapter(List<Account> accounts) {
+    public AccountAdapter(RecyclerView container, List<Account> accounts) {
+        this.mContainer = container;
+        this.mContainer.setAdapter(this);
         this.setAccounts(accounts);
     }
 
     public void setAccounts(List<Account> accounts) {
         mAccounts = (accounts != null ? accounts : new ArrayList<>());
         this.notifyDataSetChanged();
+        mContainer.scheduleLayoutAnimation();
     }
 
     @NonNull
@@ -33,6 +37,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AccountHolder holder, int position) {
+        //call anim here?
         holder.setInitialDisplay(mAccounts.get(position));
     }
 

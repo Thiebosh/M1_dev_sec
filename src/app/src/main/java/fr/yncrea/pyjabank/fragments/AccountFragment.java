@@ -59,14 +59,12 @@ public class AccountFragment extends Fragment {
 
         //listage des components à manipuler (appels multiples)
         Button refresh = view.findViewById(R.id.frag_acc_btn_refresh);
-        RecyclerView recycler = view.findViewById(R.id.frag_acc_recycler_accounts);
 
         //initialisation
         String str = AppActivity.mLogged.getName() + " " + AppActivity.mLogged.getLastname();
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setSubtitle(str);
 
-        mAdapter = new AccountAdapter(null);
-        recycler.setAdapter(mAdapter);
+        mAdapter = new AccountAdapter(view.findViewById(R.id.frag_acc_recycler_accounts), null);
 
         //réaction aux interactions
         refresh.setOnClickListener(v -> {

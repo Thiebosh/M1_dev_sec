@@ -31,9 +31,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="32dp"
+        android:background="@drawable/border_gray"
+        android:paddingRight="1dp"
         app:layout_constraintBottom_toTopOf="@+id/act_home_button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="8dp">
 
             <TextView
                 android:id="@+id/act_home_text_intro"
