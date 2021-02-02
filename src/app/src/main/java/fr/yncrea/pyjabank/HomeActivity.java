@@ -10,8 +10,7 @@ import android.media.MediaPlayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-    //Define media player to play the next sound
-    final MediaPlayer mp = MediaPlayer.create(this, R.raw.clear);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
         //Sound start
+        //Define media player to play the next sound
+        final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.clear);
         mp.start();
     }
 }
