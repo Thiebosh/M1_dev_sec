@@ -34,7 +34,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountHolder> {
     public AccountHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return new AccountHolder(LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.item_account, parent, false));
+                .inflate(R.layout.item_account_display, parent, false));
     }
 
     @Override

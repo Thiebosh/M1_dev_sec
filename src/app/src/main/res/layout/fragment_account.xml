@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/item_account" />
+        tools:listitem="@layout/item_account_display" />
 
     <Button
         android:id="@+id/frag_acc_btn_refresh"
