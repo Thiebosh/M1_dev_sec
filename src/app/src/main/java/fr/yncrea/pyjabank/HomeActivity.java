@@ -1,13 +1,17 @@
 package fr.yncrea.pyjabank;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.media.MediaPlayer;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-
+    //Define media player to play the next sound
+    final MediaPlayer mp = MediaPlayer.create(this, R.raw.clear);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+        //Sound start
+        mp.start();
     }
 }
