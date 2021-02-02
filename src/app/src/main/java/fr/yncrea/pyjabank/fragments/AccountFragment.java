@@ -31,12 +31,12 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
-        menu.findItem(R.id.menu_disconnect).setVisible(true);
+        menu.findItem(R.id.menu_app_disconnect).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        if (item.getItemId() == R.id.menu_cleanDB) {
+        if (item.getItemId() == R.id.menu_app_cleanDB) {
             mAdapter.setAccounts(null);
             Executors.newSingleThreadExecutor().execute(() ->
                     BankDatabase.getDatabase().userDao().insert(AppActivity.getLogged()));
@@ -117,8 +117,10 @@ public class AccountFragment extends Fragment {
         });
 
         /*view.findViewById(R.id.button).setOnClickListener(v -> {
-            new RestApi<>(getActivity()).sendStoreAccount(database, new Account());
-            //refresh.callOnClick();
+            if (AppActivity.isSendOnline()) {
+                new RestApi<>(getActivity()).sendStoreAccount(database, new Account());
+                refresh.callOnClick();
+            }
         });*/
 
         return view;

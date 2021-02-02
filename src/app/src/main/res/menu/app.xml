@@ -4,17 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AppActivity">
 
-    <item
-        android:id="@+id/menu_disconnect"
-        android:icon="@drawable/ic_exit"
-        android:orderInCategory="0"
-        android:title="@string/menu_app_exit"
-        app:showAsAction="ifRoom" />
+    <group android:id="@+id/action" >
+        <item
+            android:id="@+id/menu_app_disconnect"
+            android:icon="@drawable/ic_exit"
+            android:orderInCategory="0"
+            android:title="@string/menu_app_exit"
+            app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/menu_cleanDB"
-        android:icon="@drawable/ic_delete"
-        android:orderInCategory="1"
-        android:title="@string/menu_app_clear" />
+        <item
+            android:id="@+id/menu_app_cleanDB"
+            android:icon="@drawable/ic_delete"
+            android:orderInCategory="1"
+            android:title="@string/menu_app_clear" />
+    </group>
+
+    <group android:id="@+id/settings" >
+        <item
+            android:id="@+id/menu_app_send_online"
+            android:checkable="true"
+            android:icon="@drawable/ic_synchro"
+            android:orderInCategory="2"
+            android:title="@string/menu_app_send_online" />
+    </group>
 
 </menu>

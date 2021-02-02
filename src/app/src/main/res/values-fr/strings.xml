@@ -7,6 +7,7 @@
     <!-- Menus -->
     <string name="menu_app_exit">Déconnexion</string>
     <string name="menu_app_clear">Vider BDD</string>
+    <string name="menu_app_send_online">Envoyer en ligne</string>
 
 
     <!-- Activities -->

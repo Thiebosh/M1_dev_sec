@@ -2,6 +2,8 @@ package fr.yncrea.pyjabank;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,12 +11,16 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.view.MenuCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Stack;
@@ -82,26 +88,49 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
 
 
     /*
+     * Section SharedPreferences
+     */
+
+    private static final String PREF_SLOT_ACCESS = "PyjaBankUserPrefs";
+    private static final String PREF_ACCESS_SEND_ONLINE = "AutoSend";
+
+    private static SharedPreferences mPrefs;
+
+
+    /*
      * Section Menu
      */
 
-    @SuppressLint("RestrictedApi")
+    private static MenuItem mSendOnline = null;
+
+    public static boolean isSendOnline() {
+        return mSendOnline.isChecked();
+    }
+
+    @SuppressLint({"RestrictedApi", "ResourceAsColor"})
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         if (menu instanceof MenuBuilder) ((MenuBuilder) menu).setOptionalIconsVisible(true);
+        MenuCompat.setGroupDividerEnabled(menu, true);
         getMenuInflater().inflate(R.menu.app, menu);
+
+        mSendOnline = menu.findItem(R.id.menu_app_send_online);
+        mSendOnline.setChecked(mPrefs.getBoolean(PREF_ACCESS_SEND_ONLINE, false));
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        final int disconnect = R.id.menu_disconnect;
-        final int cleanDB = R.id.menu_cleanDB;
+        final int disconnect = R.id.menu_app_disconnect;
+        final int cleanDB = R.id.menu_app_cleanDB;
+        final int refreshAuto = R.id.menu_app_send_online;
 
         switch (item.getItemId()) {
             case disconnect:
                 loadFragment(new ConnectFragment(), true);
                 return true; //event totally handled
+
             case cleanDB:
                 Executors.newSingleThreadExecutor().execute(() -> {
                     BankDatabase.getDatabase().userDao().deleteAll();
@@ -111,16 +140,36 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show());
                 });
                 return false; //fragment can do more with it
+
+            case refreshAuto:
+                item.setChecked(!item.isChecked());
+
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(new View(this));
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return false;
+                    }
+                });
+                return false;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+
     /*
      * Section Cycle de vie
      */
 
-    private static User mLogged;
+    private static User mLogged = null;
 
     public static User getLogged() {
         return mLogged;
@@ -135,6 +184,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
+        mPrefs = getApplicationContext().getSharedPreferences(PREF_SLOT_ACCESS, MODE_PRIVATE);
+
         BankDatabase.buildDatabase(getApplicationContext());
 
         loadFragment(new ConnectFragment(), true);
@@ -146,6 +197,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
 
         mLogged = null;
         loadFragment(new ConnectFragment(), true);
+
+        mPrefs.edit().putBoolean(PREF_ACCESS_SEND_ONLINE, mSendOnline.isChecked()).apply();
     }
 
     @Override

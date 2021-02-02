@@ -36,7 +36,7 @@ public class ConnectFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
         mKeypad.setVisibility(View.GONE);
-        menu.findItem(R.id.menu_disconnect).setVisible(false);
+        menu.findItem(R.id.menu_app_disconnect).setVisible(false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
