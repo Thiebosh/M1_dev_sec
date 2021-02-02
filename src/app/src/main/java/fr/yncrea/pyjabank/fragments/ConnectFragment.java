@@ -1,6 +1,7 @@
 package fr.yncrea.pyjabank.fragments;
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,6 +45,10 @@ public class ConnectFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
+        //Define media player to play the next sound
+        final MediaPlayer mp = MediaPlayer.create(this.getContext(), R.raw.confirm);
+        final MediaPlayer mp2 = MediaPlayer.create(this.getContext(), R.raw.clear);
+
         //attribution des layouts et éléments clés
         View view = inflater.inflate(R.layout.fragment_connect, container, false);
         setHasOptionsMenu(true);//call onPrepareOptionsMenu
@@ -85,6 +90,7 @@ public class ConnectFragment extends Fragment {
         }
 
         erase.setOnClickListener(v -> {
+            mp2.start();
             CharSequence str = password.getText();
             if (str.length() > 0) password.setText(str.subSequence(0, str.length()-1));
         });
@@ -106,6 +112,7 @@ public class ConnectFragment extends Fragment {
         });
 
         confirm.setOnClickListener(v -> {
+            mp.start();
             mKeypad.setVisibility(View.GONE);
 
             boolean isValid = true;
@@ -198,7 +205,10 @@ public class ConnectFragment extends Fragment {
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
+        final MediaPlayer mp3 = MediaPlayer.create(this.getContext(), R.raw.bip);
+
         digit.setOnClickListener(v -> {
+            mp3.start();
             container.append(digit.getText());
             field.setError(null);
         });

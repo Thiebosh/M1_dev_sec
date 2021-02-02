@@ -10,10 +10,11 @@ import android.media.MediaPlayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-    //Define media player to play the next sound
-    final MediaPlayer mp = MediaPlayer.create(this, R.raw.clear);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Define media player to play the next sound
+        final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.welcome);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
