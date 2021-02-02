@@ -158,6 +158,8 @@
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:text="@string/frag_conn_button_erase"
+            android:textSize="12sp"
+            app:icon="@drawable/ic_backspace"
             app:layout_constraintBottom_toBottomOf="@+id/frag_conn_button_digit9"
             app:layout_constraintEnd_toEndOf="@+id/frag_conn_button_digit7"
             app:layout_constraintStart_toStartOf="@+id/frag_conn_button_digit6"
