@@ -30,7 +30,7 @@
                 android:id="@+id/item_acc_crea_text_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Account name"
+                android:hint="@string/item_acc_crea_hint_name"
                 android:inputType="textShortMessage" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,7 +49,7 @@
                 android:id="@+id/item_acc_crea_text_iban_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Iban"
+                android:hint="@string/item_acc_crea_hint_iban"
                 android:inputType="textShortMessage|textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
                 android:id="@+id/item_acc_crea_text_amount_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Solde"
+                android:hint="@string/item_acc_crea_hint_amount"
                 android:inputType="numberSigned|numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Send"
+            android:text="@string/item_acc_crea_button_save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

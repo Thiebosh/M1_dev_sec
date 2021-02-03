@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -142,8 +141,6 @@ public class RestApi<T> {
                             break;
 
                         case FLAG_SEND_ACCOUNT:
-                            Log.d("testy", "Classe : "+data.getClass());
-                            Log.d("testy", "Contenu : "+data);
                             db.accountDao().insert(account);
                             break;
 

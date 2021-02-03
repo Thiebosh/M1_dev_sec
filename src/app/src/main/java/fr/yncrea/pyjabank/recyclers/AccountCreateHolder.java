@@ -5,13 +5,14 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.AppActivity;
 import fr.yncrea.pyjabank.R;
@@ -20,6 +21,8 @@ import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.services.RestApi;
 
 public class AccountCreateHolder extends RecyclerView.ViewHolder {
+
+    private final Context mContext;
 
     private final TextInputEditText mName;
     private final TextInputEditText mIban;
@@ -35,6 +38,8 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
 
     public AccountCreateHolder(@NonNull final View itemView) {
         super(itemView);
+
+        mContext = itemView.getContext();
 
         mName = itemView.findViewById(R.id.item_acc_crea_text_name_edit);
         mIban = itemView.findViewById(R.id.item_acc_crea_text_iban_edit);
@@ -54,14 +59,10 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
         assert mIban.getText() != null;
         assert mAmount.getText() != null;
 
-        Context context = activity.getApplicationContext();
-
-        //field reactions
         mName.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
             if (!focus && isNameInvalid(mName.getText().length())) {
-                msg = "error";
-                //msg = context.getString(R.string.frag_conn_error_username);
+                msg = mContext.getString(R.string.item_acc_crea_error_name);
             }
             mNameField.setError(msg);
         });
@@ -69,8 +70,7 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
         mIban.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
             if (!focus && isIbanInvalid(mIban.getText().length())) {
-                msg = "error";
-                //msg = context.getString(R.string.frag_conn_error_username);
+                msg = mContext.getString(R.string.item_acc_crea_error_iban);
             }
             mIbanField.setError(msg);
         });
@@ -78,8 +78,7 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
         mAmount.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
             if (!focus && isAmountInvalid(mAmount.getText().toString())) {
-                msg = "error";
-                //msg = context.getString(R.string.frag_conn_error_username);
+                msg = mContext.getString(R.string.item_acc_crea_error_amount);
             }
             mAmountField.setError(msg);
         });
@@ -89,15 +88,15 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
             boolean isValid = true;
             if (isNameInvalid(mName.getText().length())) {
                 isValid = false;
-                mNameField.setError("error");//context.getString(R.string.frag_conn_error_username));
+                mNameField.setError(mContext.getString(R.string.item_acc_crea_error_name));
             }
             if (isIbanInvalid(mIban.getText().length())) {
                 isValid = false;
-                mIbanField.setError("error");//context.getString(R.string.frag_conn_error_password));
+                mIbanField.setError(mContext.getString(R.string.item_acc_crea_error_iban));
             }
             if (isAmountInvalid(mAmount.getText().toString())) {
                 isValid = false;
-                mAmountField.setError("error");//context.getString(R.string.frag_conn_error_password));
+                mAmountField.setError(mContext.getString(R.string.item_acc_crea_error_amount));
             }
             if (!isValid) return;
 
@@ -115,18 +114,21 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
             adapter.addAccount(account);
 
             if (AppActivity.isSendOnline()) {
-                //new RestApi<>(activity).sendStoreAccount(BankDatabase.getDatabase(), account);
-                Toast.makeText(context, "add account online", Toast.LENGTH_SHORT).show();
+                new RestApi<>(activity).sendStoreAccount(BankDatabase.getDatabase(), account);
+            }
+            else {
+                Executors.newSingleThreadExecutor().execute(() ->
+                    BankDatabase.getDatabase().accountDao().insert(account));
             }
         });
     }
 
     private boolean isNameInvalid(final int length) {
-        return length < 4;
+        return length < mContext.getResources().getInteger(R.integer.length_min_account_name);
     }
 
     private boolean isIbanInvalid(final int length) {
-        return length < 6;
+        return length < mContext.getResources().getInteger(R.integer.length_min_iban);
     }
 
     private boolean isAmountInvalid(final String input) {

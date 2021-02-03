@@ -36,6 +36,14 @@
         <item>€</item>
     </string-array>
 
+    <string name="item_acc_crea_hint_name">Enter account name</string>
+    <string name="item_acc_crea_hint_iban">Enter IBAN</string>
+    <string name="item_acc_crea_hint_amount">Enter amount</string>
+    <string name="item_acc_crea_error_name">Account name too short</string>
+    <string name="item_acc_crea_error_iban">IBAN too short</string>
+    <string name="item_acc_crea_error_amount">Invalid number</string>
+    <string name="item_acc_crea_button_save">Save</string>
+
 
     <!-- Toasts -->
     <string name="toast_db_clean">Local data deleted</string>

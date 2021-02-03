@@ -3,8 +3,8 @@ package fr.yncrea.pyjabank;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,8 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,10 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.view.MenuCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Stack;
 import java.util.concurrent.Executors;
@@ -105,6 +100,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
      * Section Menu
      */
 
+    private static Context mContext;
+
     private static MenuItem mSendOnline = null;
 
     public static boolean isSendOnline() {
@@ -136,6 +133,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
                 return true; //event totally handled
 
             case cleanDB:
+                MediaPlayer.create(mContext, R.raw.clear).start();
                 Executors.newSingleThreadExecutor().execute(() -> {
                     BankDatabase.getDatabase().userDao().deleteAll();
                     BankDatabase.getDatabase().accountDao().deleteAll();
@@ -189,6 +187,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
         setContentView(R.layout.activity_app);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
+
+        mContext = getApplicationContext();
 
         mPrefs = getApplicationContext().getSharedPreferences(PREF_SLOT_ACCESS, MODE_PRIVATE);
 

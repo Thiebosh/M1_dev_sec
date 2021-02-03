@@ -26,6 +26,16 @@
     <string name="frag_acc_button_refresh">Rafraichir</string>
 
 
+    <!-- Items -->
+    <string name="item_acc_crea_hint_name">Entrez le nom du compte</string>
+    <string name="item_acc_crea_hint_iban">Entez l\'IBAN</string>
+    <string name="item_acc_crea_hint_amount">Entez le montant</string>
+    <string name="item_acc_crea_error_name">Nom de compte trop court</string>
+    <string name="item_acc_crea_error_iban">IBAN trop court</string>
+    <string name="item_acc_crea_error_amount">Nombre invalide</string>
+    <string name="item_acc_crea_button_save">Enregistrer</string>
+
+
     <!-- Toasts -->
     <string name="toast_db_clean">Données locale supprimées</string>
 

@@ -3,6 +3,8 @@
     <!-- Application -->
     <integer name="length_min_username">2</integer>
     <integer name="length_min_password">3</integer>
+    <integer name="length_min_account_name">4</integer>
+    <integer name="length_min_iban">6</integer>
 
     <!-- Animation -->
     <integer name="anim_duration_medium">400</integer>
