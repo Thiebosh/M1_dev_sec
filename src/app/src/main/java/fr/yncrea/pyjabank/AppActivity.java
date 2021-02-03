@@ -66,6 +66,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
             if (searcher.pop().getClass().getSimpleName().equals(searched)) break;
             --position;
         }
+        searched = null;
         if (position != -1) for (int i = mFragStack.size(); i > position; --i) mFragStack.pop();
 
         if (addToBackstack) mFragStack.push(fragment);

@@ -108,6 +108,7 @@ public class ConnectFragment extends Fragment {
             }
             else mKeypad.setVisibility(View.GONE);//if (focus)
             usernameField.setError(msg);
+            msg = null;
         });
 
         password.setOnTouchListener((v, event) -> {
@@ -184,14 +185,17 @@ public class ConnectFragment extends Fragment {
                         () -> {
                             String str = getString(R.string.toast_api_empty_user);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                            str = null;
                             confirm.setEnabled(true);
                         },
                         () -> {
                             String str = getString(R.string.toast_api_failure);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+                            str = null;
                             confirm.setEnabled(true);
                         }
                 ).retrieveStoreUser(database, _username, _password);
+
                 //}
             });
         });
@@ -206,6 +210,7 @@ public class ConnectFragment extends Fragment {
         assert getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
         String str = getString(R.string.app_default_user);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
+        str = null;
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {

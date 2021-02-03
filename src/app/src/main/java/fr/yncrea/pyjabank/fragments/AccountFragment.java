@@ -66,6 +66,7 @@ public class AccountFragment extends Fragment {
         //initialisation
         String str = logged.getName() + " " + logged.getLastname();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
+        str = null;
 
         mAdapter = new AccountAdapter(view.findViewById(R.id.frag_acc_recycler_accounts), null);
 
@@ -74,6 +75,7 @@ public class AccountFragment extends Fragment {
             if (!Utils.haveInternet(getContext())) {
                 String str2 = getString(R.string.toast_invalid_internet);
                 Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
+                str2 = null;
                 return;
             }
 
@@ -87,15 +89,18 @@ public class AccountFragment extends Fragment {
                         mAdapter.setAccounts(accounts);
                         refresh.setEnabled(true);
                     });
+
                 }),
                 () -> {
                     String str2 = getString(R.string.toast_api_empty_accounts);
                     Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
+                    str2 = null;
                     refresh.setEnabled(true);
                 },
                 () -> {
                     String str2 = getString(R.string.toast_api_failure);
                     Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
+                    str2 = null;
                     refresh.setEnabled(true);
                 }
             ).retrieveStoreAccountList(database);
@@ -111,6 +116,7 @@ public class AccountFragment extends Fragment {
                 else {
                     String str2 = getString(R.string.toast_invalid_internet);
                     getActivity().runOnUiThread(() -> Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show());
+
                 }
             }
             else getActivity().runOnUiThread(() -> mAdapter.setAccounts(accounts));

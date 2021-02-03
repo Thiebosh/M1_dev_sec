@@ -9,6 +9,9 @@ import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.Guard;
+import java.security.GuardedObject;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -22,7 +25,9 @@ public class HomeActivity extends AppCompatActivity {
                 "Cette application communique de façon sécurisée avec une api rest\n" +
                 "Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée\n" +
                 "blablabla";
+
         ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
+        str = null;
 
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
