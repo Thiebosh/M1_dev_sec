@@ -6,4 +6,7 @@
 
     <!-- Animation -->
     <integer name="anim_duration_medium">400</integer>
+
+    <!-- Vibration -->
+    <integer name="duration_vibration_button_more_less">100</integer>
 </resources>

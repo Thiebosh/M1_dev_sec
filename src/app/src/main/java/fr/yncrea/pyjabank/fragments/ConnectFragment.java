@@ -1,8 +1,10 @@
 package fr.yncrea.pyjabank.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -209,6 +211,7 @@ public class ConnectFragment extends Fragment {
 
         digit.setOnClickListener(v -> {
             mp3.start();
+            ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(getResources().getInteger(R.integer.duration_vibration_button_more_less));
             container.append(digit.getText());
             field.setError(null);
         });
