@@ -28,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
         //Sound start
+        //Define media player to play the next sound
         mp.start();
     }
 }
