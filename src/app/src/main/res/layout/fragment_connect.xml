@@ -10,7 +10,7 @@
     tools:context=".fragments.ConnectFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/frag_conn_text_username_input"
+        android:id="@+id/frag_conn_text_username_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -31,7 +31,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/frag_conn_text_password_input"
+        android:id="@+id/frag_conn_text_password_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -40,7 +40,7 @@
         app:hintTextColor="?colorPrimaryVariant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_conn_text_username_input">
+        app:layout_constraintTop_toBottomOf="@+id/frag_conn_text_username_field">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frag_conn_text_password_edit"
@@ -63,7 +63,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_conn_text_password_input">
+        app:layout_constraintTop_toBottomOf="@+id/frag_conn_text_password_field">
 
         <Button
             android:id="@+id/frag_conn_button_digit0"

@@ -65,8 +65,8 @@ public class ConnectFragment extends Fragment {
         TextInputEditText username = view.findViewById(R.id.frag_conn_text_username_edit);
         TextInputEditText password = view.findViewById(R.id.frag_conn_text_password_edit);
 
-        TextInputLayout usernameField = view.findViewById(R.id.frag_conn_text_username_input);
-        TextInputLayout passwordField = view.findViewById(R.id.frag_conn_text_password_input);
+        TextInputLayout usernameField = view.findViewById(R.id.frag_conn_text_username_field);
+        TextInputLayout passwordField = view.findViewById(R.id.frag_conn_text_password_field);
 
         mKeypad = view.findViewById(R.id.frag_conn_const_keypad);
 
