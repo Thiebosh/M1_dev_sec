@@ -1,10 +1,13 @@
 package fr.yncrea.pyjabank.database.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.text.DecimalFormat;
+
+import fr.yncrea.pyjabank.recyclers.AccountAdapter;
 
 @Entity (indices = {@Index(value = {"id"}, unique = true)})
 public class Account {
@@ -14,6 +17,16 @@ public class Account {
     private double amount;
     private String iban;
     private String currency; //could have been enum
+
+    @Ignore
+    private int typeItem = AccountAdapter.TYPE_DISPLAY;
+
+    public Account() {
+    }
+
+    public Account(final int typeItem) {
+        this.typeItem = typeItem;
+    }
 
     public int getId() {
         return id;
@@ -66,5 +79,13 @@ public class Account {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public int getTypeItem() {
+        return typeItem;
+    }
+
+    public void setTypeItem(int typeItem) {
+        this.typeItem = typeItem;
     }
 }

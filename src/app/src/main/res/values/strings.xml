@@ -29,6 +29,14 @@
     <string name="frag_acc_button_refresh">Refresh</string>
 
 
+    <!-- Items -->
+    <string-array name="currencies" translatable="false">
+        <item>$</item>
+        <item>£</item>
+        <item>€</item>
+    </string-array>
+
+
     <!-- Toasts -->
     <string name="toast_db_clean">Local data deleted</string>
 
