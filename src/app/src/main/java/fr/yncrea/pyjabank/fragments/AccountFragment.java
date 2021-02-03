@@ -1,5 +1,6 @@
 package fr.yncrea.pyjabank.fragments;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,6 +51,9 @@ public class AccountFragment extends Fragment {
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
+        //Sound refresh
+        final MediaPlayer mp = MediaPlayer.create(this.getContext(), R.raw.pop);
+
         //attribution des layouts
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         setHasOptionsMenu(true);//call onPrepareOptionsMenu
@@ -73,6 +77,7 @@ public class AccountFragment extends Fragment {
         //réaction aux interactions
         refresh.setOnClickListener(v -> {
             if (!Utils.haveInternet(getContext())) {
+                mp.start();
                 String str2 = getString(R.string.toast_invalid_internet);
                 Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                 str2 = null;
