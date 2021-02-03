@@ -3,6 +3,7 @@ package fr.yncrea.pyjabank;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 
@@ -20,6 +21,8 @@ public class HomeActivity extends AppCompatActivity {
         final MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.welcome);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
 
         String str = "Ceci est un démonstrateur sur le thème de la sécurité\n" +
                 "Cette application communique de façon sécurisée avec une api rest\n" +
