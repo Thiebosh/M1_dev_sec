@@ -68,7 +68,7 @@ public class AccountFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
         str = null;
 
-        mAdapter = new AccountAdapter(view.findViewById(R.id.frag_acc_recycler_accounts), null);
+        mAdapter = new AccountAdapter(getActivity(), view.findViewById(R.id.frag_acc_recycler_accounts), null);
 
         //réaction aux interactions
         refresh.setOnClickListener(v -> {

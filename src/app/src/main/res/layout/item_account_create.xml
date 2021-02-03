@@ -11,13 +11,12 @@
     app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_acc_crea_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/item_acc_crea_text_name_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -28,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_acc_crea_text_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Account name"
@@ -35,7 +35,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
+            android:id="@+id/item_acc_crea_text_iban_field"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="32dp"
@@ -43,9 +43,10 @@
             android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/item_acc_crea_text_name_field">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_acc_crea_text_iban_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Iban"
@@ -53,25 +54,35 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
+            android:id="@+id/item_acc_crea_text_amount_field"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toStartOf="@+id/spinner"
+            app:layout_constraintEnd_toStartOf="@+id/item_acc_crea_spin_curr"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/item_acc_crea_text_iban_field">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/item_acc_crea_text_amount_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Solde"
-                android:inputType="numberSigned|textCapWords" />
+                android:inputType="numberSigned|numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/item_acc_crea_spin_curr"
+            android:layout_width="80dp"
+            android:layout_height="0dp"
+            android:entries="@array/currencies"
+            app:layout_constraintBottom_toBottomOf="@+id/item_acc_crea_text_amount_field"
+            app:layout_constraintEnd_toEndOf="@+id/item_acc_crea_text_iban_field"
+            app:layout_constraintTop_toTopOf="@+id/item_acc_crea_text_amount_field" />
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/item_acc_crea_button_valid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -80,15 +91,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="80dp"
-            android:layout_height="0dp"
-            android:entries="@array/currencies"
-            app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
-            app:layout_constraintTop_toTopOf="@+id/textInputLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/item_acc_crea_text_amount_field" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

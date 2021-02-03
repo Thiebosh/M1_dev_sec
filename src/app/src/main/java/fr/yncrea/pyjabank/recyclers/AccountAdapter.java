@@ -1,5 +1,6 @@
 package fr.yncrea.pyjabank.recyclers;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -18,23 +19,30 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public final static int TYPE_DISPLAY = 0;
     public final static int TYPE_CREATE = 1;
 
+    private final Activity mActivity;
+
     private List<Account> mAccounts;
 
     private final RecyclerView mContainer;
     private AccountDisplayHolder mLastHolderSelected = null;
 
-    public AccountAdapter(final RecyclerView container, final List<Account> accounts) {
-        this.mContainer = container;
-        this.mContainer.setAdapter(this);
+    public AccountAdapter(final Activity activity, final RecyclerView container, final List<Account> accounts) {
+        this.mActivity = activity;
+        (this.mContainer = container).setAdapter(this);
         this.setAccounts(accounts);
     }
 
     public void setAccounts(final List<Account> accounts) {
-        if (accounts != null) accounts.add(new Account(TYPE_CREATE));
-        mAccounts = (accounts != null ? accounts : new ArrayList<>(Collections.singletonList(new Account(TYPE_CREATE))));
+        if (accounts != null) (mAccounts = accounts).add(new Account(TYPE_CREATE));
+        else mAccounts = new ArrayList<>(Collections.singletonList(new Account(TYPE_CREATE)));
 
         this.notifyDataSetChanged();
         mContainer.scheduleLayoutAnimation();
+    }
+
+    protected void addAccount(final Account account) {
+        mAccounts.add(mAccounts.size()-1, account);
+        this.notifyItemInserted(mAccounts.size()-2);
     }
 
     public AccountDisplayHolder getLastHolderSelected() {
@@ -58,12 +66,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .from(parent.getContext())
                     .inflate(R.layout.item_account_display, parent, false));
         }
-        else if (viewType == TYPE_CREATE) {
+        else { //if (viewType == TYPE_CREATE) {
             return new AccountCreateHolder(LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.item_account_create, parent, false));
         }
-        return null;
     }
 
     @Override
@@ -72,7 +79,9 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((AccountDisplayHolder) holder).setInitialDisplay(this, mAccounts.get(position));
             ((AccountDisplayHolder) holder).setInteractions(this);
         }
-        else if (getItemViewType(position) == TYPE_CREATE) ((AccountCreateHolder) holder).setInteractions();
+        else if (getItemViewType(position) == TYPE_CREATE) {
+            ((AccountCreateHolder) holder).setInteractions(this, mActivity);
+        }
     }
 
     @Override

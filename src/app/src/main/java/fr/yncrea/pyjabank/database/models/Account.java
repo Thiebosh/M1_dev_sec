@@ -84,8 +84,4 @@ public class Account {
     public int getTypeItem() {
         return typeItem;
     }
-
-    public void setTypeItem(int typeItem) {
-        this.typeItem = typeItem;
-    }
 }
