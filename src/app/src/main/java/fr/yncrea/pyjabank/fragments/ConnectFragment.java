@@ -3,7 +3,9 @@ package fr.yncrea.pyjabank.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -207,11 +209,14 @@ public class ConnectFragment extends Fragment {
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
-        final MediaPlayer mp3 = MediaPlayer.create(this.getContext(), R.raw.bip);
-
         digit.setOnClickListener(v -> {
-            mp3.start();
-            ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(getResources().getInteger(R.integer.duration_vibration_button_more_less));
+            MediaPlayer.create(this.getContext(), R.raw.bip).start();
+
+            Vibrator vibrator = ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE));
+            int duration = getResources().getInteger(R.integer.vibr_dur_digit);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) vibrator.vibrate(duration);
+            else vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+
             container.append(digit.getText());
             field.setError(null);
         });

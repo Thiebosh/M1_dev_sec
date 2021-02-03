@@ -1,6 +1,5 @@
 package fr.yncrea.pyjabank.recyclers;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -9,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.color.MaterialColors;
 
 import fr.yncrea.pyjabank.R;
@@ -17,7 +15,6 @@ import fr.yncrea.pyjabank.database.models.Account;
 
 public class AccountHolder extends RecyclerView.ViewHolder {
 
-    private final Context mContext;
     private final ConstraintLayout mContainer;
 
     private final TextView mName;
@@ -28,7 +25,6 @@ public class AccountHolder extends RecyclerView.ViewHolder {
     public AccountHolder(@NonNull final View itemView) {
         super(itemView);
 
-        mContext = itemView.getContext();
         mContainer = itemView.findViewById(R.id.item_acc_disp_container);
 
         mName = itemView.findViewById(R.id.item_acc_disp_text_name);
