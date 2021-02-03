@@ -30,6 +30,8 @@
 
 
     <!-- Items -->
+    <string name="item_acc_disp_text_iban" translatable="false">IBAN : <xliff:g id="iban">%1$s</xliff:g></string>
+
     <string-array name="currencies" translatable="false">
         <item>$</item>
         <item>£</item>

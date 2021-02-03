@@ -1,5 +1,6 @@
 package fr.yncrea.pyjabank.recyclers;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import fr.yncrea.pyjabank.database.models.Account;
 
 public class AccountDisplayHolder extends RecyclerView.ViewHolder {
 
+    private final Context mContext;
+
     private final ConstraintLayout mContainer;
 
     private final TextView mName;
@@ -24,6 +27,8 @@ public class AccountDisplayHolder extends RecyclerView.ViewHolder {
 
     public AccountDisplayHolder(@NonNull final View itemView) {
         super(itemView);
+
+        mContext = itemView.getContext();
 
         mContainer = itemView.findViewById(R.id.item_acc_disp_container);
 
@@ -45,7 +50,7 @@ public class AccountDisplayHolder extends RecyclerView.ViewHolder {
         mName.setText(account.getAccount_name());
         mAmount.setText(account.getAmountStr());
         mCurrency.setText(account.getCurrency());
-        mIban.setText(account.getIban());
+        mIban.setText(mContext.getString(R.string.item_acc_disp_text_iban, account.getIban()));
     }
 
     public void setInteractions(final AccountAdapter adapter) {
