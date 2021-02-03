@@ -23,6 +23,8 @@ import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.util.Stack;
 import java.util.concurrent.Executors;
 
