@@ -1,4 +1,5 @@
-package fr.yncrea.pyjabank.interfaces;
+package fr.yncrea.pyjabank.services;
+
 import android.content.Context;
 
 import androidx.security.crypto.EncryptedFile;
@@ -12,8 +13,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 
-interface EncryptData {
-    static String storeData(String name, Context context, String data) {
+public class Test {
+    public static String storeData(String name, Context context, String data) {
         try {
             MasterKey mainKey = new MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build();
             EncryptedFile encryptedFile = new EncryptedFile.Builder(
@@ -33,8 +34,9 @@ interface EncryptData {
         return (name + "txt");
     }
 
-    static String storeData(String fileName, Context context) {
+    public static String storeData(String fileName, Context context) {
         ByteArrayOutputStream byteArrayOutputStream = null;
+        String s = null;
         try {
             MasterKey mainKey = new MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build();
             EncryptedFile encryptedFile = new EncryptedFile.Builder(
@@ -50,10 +52,10 @@ interface EncryptData {
                 byteArrayOutputStream.write(nextByte);
                 nextByte = inputStream.read();
             }
-            String s = new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
+            s = new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
         } catch (GeneralSecurityException | IOException generalSecurityException) {
             generalSecurityException.printStackTrace();
         }
-    return new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
+        return s;
     }
 }

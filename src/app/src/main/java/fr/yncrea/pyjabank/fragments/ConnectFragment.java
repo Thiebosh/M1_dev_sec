@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -22,6 +23,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -131,7 +135,15 @@ public class ConnectFragment extends Fragment {
                 String _username = username.getText().toString();
                 String _password = password.getText().toString();
 
-                //hash password : https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA-512");
+                    byte[] bytes = md.digest(password.getText().toString().getBytes());
+                    StringBuilder sb = new StringBuilder();
+                    for (byte aByte : bytes) sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+                    _password = sb.toString();
+                }
+                catch (NoSuchAlgorithmException ignore) { }
+                Log.d("testy", _password);
 
                 if (database.userDao().isUser()) {
                     AppActivity.setLogged(database.userDao().get(_username, _password));
@@ -166,12 +178,13 @@ public class ConnectFragment extends Fragment {
                     return;
                 }
 
+                String final_password = _password;
                 new RestApi<>(getActivity()).setHandler(
                         () -> {
                             username.setText("");
                             password.setText("");
                             Executors.newSingleThreadExecutor().execute(() -> {
-                                AppActivity.setLogged(database.userDao().get(_username, _password));
+                                AppActivity.setLogged(database.userDao().get(_username, final_password));
                                 getActivity().runOnUiThread(() ->
                                     ((FragmentSwitcher) getActivity())
                                             .loadFragment(new AccountFragment(), true));

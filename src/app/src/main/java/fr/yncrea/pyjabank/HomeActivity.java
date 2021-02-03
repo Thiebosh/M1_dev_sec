@@ -28,5 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+
+        //Test.storeData("", null, "");
     }
 }

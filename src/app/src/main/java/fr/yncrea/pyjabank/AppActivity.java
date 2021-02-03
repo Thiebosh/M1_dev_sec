@@ -100,7 +100,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
      * Section Menu
      */
 
-    private static Context mContext;
+    private Context mContext;
 
     private static MenuItem mSendOnline = null;
 
