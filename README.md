@@ -1,6 +1,44 @@
 # M1 Secure Development : Mobile applications
 
 
+
+### Réponse aux questions
+
+- Explain how you ensure user is the right one starting the app
+  - login + mdp hashé, enregistré dans db chiffrée
+- How do you securely save user's data on your phone ?
+  - db chiffrée, clé générée aléatoirement et localement, enregistrée dans fichier chiffré et mise en mémoire que le temps d'établir le lien avec la db (vidange mémoire)
+- How did you hide the API url ?
+  - Enigma ou voir comment mettre un fichier chiffré dans l'apk (idéalement, compatible avec fonctions de marc)
+- Screenshots of your application 
+  - voir fin de ce readme
+
+
+
+### Fonctionnement et features
+
+fontionnement général
+
+features :
+
+- ...
+- ...
+- ...
+
+
+
+### Maquette et preview
+
+
+
+
+
+
+
+
+
+
+
 Hey you all,  
 In this repository you will find everything you need to do the workshop.
 
@@ -16,7 +54,7 @@ In this repository you will find everything you need to do the workshop.
 
 Using Android Studio (or any editor of your choice), you will have to create a mobile application.  
 You can choose the language you want between Kotlin and Java.  
-  
+
 The goal is to create a secure application to see your bank accounts.   
 
 ### Requirements

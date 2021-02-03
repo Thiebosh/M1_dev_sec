@@ -227,6 +227,6 @@ public class ConnectFragment extends Fragment {
     }
 
     private boolean isPasswordInvalid(final int length) {
-        return length < getContext().getResources().getInteger(R.integer.length_min_password);
+        return length != getContext().getResources().getInteger(R.integer.length_min_password);
     }
 }
