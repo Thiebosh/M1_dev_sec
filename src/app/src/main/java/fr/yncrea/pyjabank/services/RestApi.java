@@ -145,14 +145,14 @@ public class RestApi<T> {
                             break;
 
                         default:
+                            data = null;
                             throw new Exception(ERROR_FLAG);
                     }
+                    data = null;
 
                     if (mHandler != null) mHandler.obtainMessage(EXECUTION_RESULT, RESPONSE_SUCCESS, -1).sendToTarget();
                 }
-                else {
-                    if (mHandler != null) mHandler.obtainMessage(EXECUTION_RESULT, RESPONSE_EMPTY, -1).sendToTarget();
-                }
+                else if (mHandler != null) mHandler.obtainMessage(EXECUTION_RESULT, RESPONSE_EMPTY, -1).sendToTarget();
             }
             catch (Exception e) {
                 if (mHandler != null) mHandler.obtainMessage(EXECUTION_RESULT, RESPONSE_ERROR, -1).sendToTarget();

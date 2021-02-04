@@ -23,7 +23,6 @@ public class HomeActivity extends AppCompatActivity {
                 "blablabla";
 
         ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
-        str = null;
 
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
             startActivity((new Intent(HomeActivity.this, AppActivity.class))

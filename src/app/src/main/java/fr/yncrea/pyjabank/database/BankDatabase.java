@@ -2,7 +2,6 @@ package fr.yncrea.pyjabank.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -49,8 +48,8 @@ public abstract class BankDatabase extends RoomDatabase {
             prefs.edit().putString(PREF_ACCESS_DB_KEY, uniqueID).apply();
         }
 
-        byte[] key = SQLiteDatabase.getBytes(uniqueID.toCharArray());
-        final SupportFactory factory = new SupportFactory(key, null,false);
+        final SupportFactory factory = new SupportFactory(SQLiteDatabase.getBytes(uniqueID.toCharArray()), null,false);
+        uniqueID = null;
 
         INSTANCE = Room.databaseBuilder(context.getApplicationContext(), BankDatabase.class, context.getString(R.string.app_db_name))
                 .openHelperFactory(factory) //commenter pour passer sur db classique

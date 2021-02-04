@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -23,12 +22,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.security.AccessControlException;
+import java.security.GuardedObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.PropertyPermission;
 import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.AppActivity;
@@ -107,7 +108,6 @@ public class ConnectFragment extends Fragment {
             }
             else mKeypad.setVisibility(View.GONE);//if (focus)
             usernameField.setError(msg);
-            msg = null;
         });
 
         password.setOnTouchListener((v, event) -> {
@@ -141,9 +141,9 @@ public class ConnectFragment extends Fragment {
                     StringBuilder sb = new StringBuilder();
                     for (byte aByte : bytes) sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
                     _password = sb.toString();
+                    sb = null;
                 }
                 catch (NoSuchAlgorithmException ignore) { }
-                Log.d("testy", _password);
 
                 if (database.userDao().isUser()) {
                     AppActivity.setLogged(database.userDao().get(_username, _password));
@@ -155,6 +155,9 @@ public class ConnectFragment extends Fragment {
                             ((FragmentSwitcher) getActivity())
                                     .loadFragment(new AccountFragment(), true);
                         });
+
+                        _username = null;
+                        _password = null;
                         return;
                     }
 
@@ -164,6 +167,9 @@ public class ConnectFragment extends Fragment {
                         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                         confirm.setEnabled(true);
                     });
+
+                    _username = null;
+                    _password = null;
                     return;
                     //}
                 }
@@ -175,35 +181,44 @@ public class ConnectFragment extends Fragment {
                         Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                         confirm.setEnabled(true);
                     });
+
+                    _username = null;
+                    _password = null;
                     return;
                 }
 
-                String final_password = _password;
+                GuardedObject guardedName = new GuardedObject(_username, new PropertyPermission("java.home", "read"));
+                GuardedObject guardedPass = new GuardedObject(_password, new PropertyPermission("java.home", "read"));
                 new RestApi<>(getActivity()).setHandler(
                         () -> {
                             username.setText("");
                             password.setText("");
                             Executors.newSingleThreadExecutor().execute(() -> {
-                                AppActivity.setLogged(database.userDao().get(_username, final_password));
-                                getActivity().runOnUiThread(() ->
-                                    ((FragmentSwitcher) getActivity())
-                                            .loadFragment(new AccountFragment(), true));
+                                try {
+                                    AppActivity.setLogged(database.userDao()
+                                            .get((String) guardedName.getObject(), (String) guardedPass.getObject()));
+
+                                    getActivity().runOnUiThread(() ->
+                                            ((FragmentSwitcher) getActivity())
+                                                    .loadFragment(new AccountFragment(), true));
+                                }
+                                catch (AccessControlException ignore) { }
                             });
                         },
                         () -> {
                             String str = getString(R.string.toast_api_empty_user);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
-                            str = null;
                             confirm.setEnabled(true);
                         },
                         () -> {
                             String str = getString(R.string.toast_api_failure);
                             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
-                            str = null;
                             confirm.setEnabled(true);
                         }
                 ).retrieveStoreUser(database, _username, _password);
 
+                _username = null;
+                _password = null;
                 //}
             });
         });
@@ -218,7 +233,6 @@ public class ConnectFragment extends Fragment {
         assert getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
         String str = getString(R.string.app_default_user);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
-        str = null;
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
