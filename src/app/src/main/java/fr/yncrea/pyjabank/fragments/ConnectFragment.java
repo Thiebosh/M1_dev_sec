@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -109,6 +110,8 @@ public class ConnectFragment extends Fragment {
             else mKeypad.setVisibility(View.GONE);//if (focus)
             usernameField.setError(msg);
         });
+
+        username.setOnKeyListener((v, keyCode, event) -> keyCode == KeyEvent.KEYCODE_ENTER);
 
         password.setOnTouchListener((v, event) -> {
             mKeypad.setVisibility(View.VISIBLE);
