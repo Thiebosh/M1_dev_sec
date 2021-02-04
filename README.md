@@ -39,7 +39,7 @@ When a client wants to use our app he will on his first connection create his lo
 - ...
 
 ### Model and preview
-In order to have an idea of what we wanted to have as an application we did 
+In order to have an idea of what we wanted to have as an application we did a model:
 ![Model](model.png)
 
 
