@@ -16,10 +16,10 @@
 
 
     <!-- Fragments -->
-    <string name="frag_conn_hint_username">Entrez votre pseudonyme</string>
-    <string name="frag_conn_hint_password">Entrez votre mot de passe</string>
+    <string name="frag_conn_hint_username">Votre pseudonyme</string>
+    <string name="frag_conn_hint_password">Votre mot de passe (6 chiffres)</string>
     <string name="frag_conn_error_username">Pseudonyme trop court</string>
-    <string name="frag_conn_error_password">Mot de passe trop court</string>
+    <string name="frag_conn_error_password">Longueur mot de passe incorrecte</string>
     <string name="frag_conn_button_erase">Effacer</string>
     <string name="frag_conn_button_next">Valider</string>
 

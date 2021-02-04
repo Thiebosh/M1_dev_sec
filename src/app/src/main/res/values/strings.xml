@@ -20,7 +20,7 @@
 
     <string-array name="act_home_text_intro" translatable="false">
         <item>Ceci est un démonstrateur sur le thème de la sécurité</item>
-        <item>&nbsp;</item>
+        <item> </item>
         <item>Cette application communique de façon sécurisée avec une api rest</item>
         <item>Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée</item>
         <item>bla bla bla</item>
@@ -28,10 +28,10 @@
 
 
     <!-- Fragments -->
-    <string name="frag_conn_hint_username">Enter your username</string>
-    <string name="frag_conn_hint_password">Enter your password</string>
+    <string name="frag_conn_hint_username">Your username</string>
+    <string name="frag_conn_hint_password">Your password (6 digits)</string>
     <string name="frag_conn_error_username">Username too short</string>
-    <string name="frag_conn_error_password">Password too short</string>
+    <string name="frag_conn_error_password">Password length incorrect</string>
     <string name="frag_conn_button_erase">Erase</string>
     <string name="frag_conn_button_next">Validate</string>
 
