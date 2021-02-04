@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Arrays;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -17,11 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
 
-        String str = "Ceci est un démonstrateur sur le thème de la sécurité\n" +
-                "Cette application communique de façon sécurisée avec une api rest\n" +
-                "Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée\n" +
-                "blablabla";
-
+        String str = String.join("\n", Arrays.asList(getResources().getStringArray(R.array.act_home_text_intro)));
         ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
 
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->

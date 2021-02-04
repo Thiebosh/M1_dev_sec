@@ -76,7 +76,7 @@
             android:id="@+id/item_acc_crea_spin_curr"
             android:layout_width="80dp"
             android:layout_height="0dp"
-            android:entries="@array/currencies"
+            android:entries="@array/item_acc_crea_spinner_curr"
             app:layout_constraintBottom_toBottomOf="@+id/item_acc_crea_text_amount_field"
             app:layout_constraintEnd_toEndOf="@+id/item_acc_crea_text_iban_field"
             app:layout_constraintTop_toTopOf="@+id/item_acc_crea_text_amount_field" />

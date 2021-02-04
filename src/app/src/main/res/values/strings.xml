@@ -18,6 +18,14 @@
     <string name="act_home_image_description" translatable="false">Logo</string>
     <string name="act_home_button_next">Next</string>
 
+    <string-array name="act_home_text_intro" translatable="false">
+        <item>Ceci est un démonstrateur sur le thème de la sécurité</item>
+        <item>&nbsp;</item>
+        <item>Cette application communique de façon sécurisée avec une api rest</item>
+        <item>Les données récupérées par TSL et Certificate pinning sont ensuite stockées en local, avec une bdd chiffrée</item>
+        <item>bla bla bla</item>
+    </string-array>
+
 
     <!-- Fragments -->
     <string name="frag_conn_hint_username">Enter your username</string>
@@ -34,7 +42,7 @@
     <!-- Items -->
     <string name="item_acc_disp_text_iban" translatable="false">IBAN : <xliff:g id="iban">%1$s</xliff:g></string>
 
-    <string-array name="currencies" translatable="false">
+    <string-array name="item_acc_crea_spinner_curr" translatable="false">
         <item>$</item>
         <item>£</item>
         <item>€</item>
