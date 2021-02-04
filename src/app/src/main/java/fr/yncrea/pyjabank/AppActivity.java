@@ -92,9 +92,10 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
 
     private static final String PREF_SLOT_ACCESS = "PyjaBankUserPrefs";
     private static final String PREF_ACCESS_SEND_ONLINE = "AutoSend";
+    private static final String PREF_ACCESS_VIBRATE = "Vibrate";
+    private static final String PREF_ACCESS_SOUND = "Sound";
 
     private static SharedPreferences mPrefs;
-
 
     /*
      * Section Menu
@@ -103,9 +104,17 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
     private Context mContext;
 
     private static MenuItem mSendOnline = null;
+    private static MenuItem mVibrate = null;
+    private static MenuItem mSound = null;
 
     public static boolean isSendOnline() {
         return mSendOnline.isChecked();
+    }
+    public static boolean isVibrate() {
+        return mVibrate.isChecked();
+    }
+    public static boolean isSound() {
+        return mSound.isChecked();
     }
 
     @SuppressLint({"RestrictedApi", "ResourceAsColor"})
@@ -115,8 +124,9 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
         MenuCompat.setGroupDividerEnabled(menu, true);
         getMenuInflater().inflate(R.menu.app, menu);
 
-        mSendOnline = menu.findItem(R.id.menu_app_send_online);
-        mSendOnline.setChecked(mPrefs.getBoolean(PREF_ACCESS_SEND_ONLINE, false));
+        (mSendOnline = menu.findItem(R.id.menu_app_send_online)).setChecked(mPrefs.getBoolean(PREF_ACCESS_SEND_ONLINE, false));
+        (mVibrate = menu.findItem(R.id.menu_app_vibrate)).setChecked(mPrefs.getBoolean(PREF_ACCESS_VIBRATE, true));
+        (mSound = menu.findItem(R.id.menu_app_sound)).setChecked(mPrefs.getBoolean(PREF_ACCESS_SOUND, true));
 
         return true;
     }
@@ -125,7 +135,10 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         final int disconnect = R.id.menu_app_disconnect;
         final int cleanDB = R.id.menu_app_cleanDB;
+
         final int refreshAuto = R.id.menu_app_send_online;
+        final int vibrate = R.id.menu_app_vibrate;
+        final int sound = R.id.menu_app_sound;
 
         switch (item.getItemId()) {
             case disconnect:
@@ -133,7 +146,7 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
                 return true; //event totally handled
 
             case cleanDB:
-                MediaPlayer.create(mContext, R.raw.clear).start();
+                if (isSound()) MediaPlayer.create(mContext, R.raw.clear).start();
                 Executors.newSingleThreadExecutor().execute(() -> {
                     BankDatabase.getDatabase().userDao().deleteAll();
                     BankDatabase.getDatabase().accountDao().deleteAll();
@@ -144,6 +157,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
                 return false; //fragment can do more with it
 
             case refreshAuto:
+            case vibrate:
+            case sound:
                 item.setChecked(!item.isChecked());
 
                 item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);

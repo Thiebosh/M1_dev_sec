@@ -10,6 +10,8 @@
     <string name="menu_app_exit">Disconnect</string>
     <string name="menu_app_clear">Clean DB</string>
     <string name="menu_app_send_online">Send online</string>
+    <string name="menu_app_vibrate" translatable="false">Vibrations</string>
+    <string name="menu_app_sound">Sounds</string>
 
 
     <!-- Activities -->

@@ -26,6 +26,20 @@
             android:icon="@drawable/ic_synchro"
             android:orderInCategory="2"
             android:title="@string/menu_app_send_online" />
+
+        <item
+            android:id="@+id/menu_app_vibrate"
+            android:checkable="true"
+            android:icon="@drawable/ic_synchro"
+            android:orderInCategory="3"
+            android:title="@string/menu_app_vibrate" />
+
+        <item
+            android:id="@+id/menu_app_sound"
+            android:checkable="true"
+            android:icon="@drawable/ic_synchro"
+            android:orderInCategory="4"
+            android:title="@string/menu_app_sound" />
     </group>
 
 </menu>

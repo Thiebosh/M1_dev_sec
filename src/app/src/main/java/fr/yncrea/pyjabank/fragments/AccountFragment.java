@@ -74,7 +74,7 @@ public class AccountFragment extends Fragment {
         //réaction aux interactions
         refresh.setOnClickListener(v -> {
             if (!Utils.haveInternet(getContext())) {
-                MediaPlayer.create(this.getContext(), R.raw.pop).start();
+                if (AppActivity.isSound()) MediaPlayer.create(this.getContext(), R.raw.pop).start();
                 String str2 = getString(R.string.toast_invalid_internet);
                 Toast.makeText(getContext(), str2, Toast.LENGTH_SHORT).show();
                 return;

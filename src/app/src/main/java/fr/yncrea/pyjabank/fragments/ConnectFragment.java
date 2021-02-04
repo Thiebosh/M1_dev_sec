@@ -116,7 +116,7 @@ public class ConnectFragment extends Fragment {
         });
 
         confirm.setOnClickListener(v -> {
-            MediaPlayer.create(this.getContext(), R.raw.confirm).start();
+            if (AppActivity.isSound()) MediaPlayer.create(this.getContext(), R.raw.confirm).start();
             mKeypad.setVisibility(View.GONE);
 
             boolean isValid = true;
@@ -237,12 +237,14 @@ public class ConnectFragment extends Fragment {
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
         digit.setOnClickListener(v -> {
-            MediaPlayer.create(this.getContext(), R.raw.bip).start();
+            if (AppActivity.isSound()) MediaPlayer.create(this.getContext(), R.raw.bip).start();
 
-            Vibrator vibrator = ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE));
-            int duration = getResources().getInteger(R.integer.vibr_dur_digit);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) vibrator.vibrate(duration);
-            else vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+            if (AppActivity.isVibrate()) {
+                Vibrator vibrator = ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE));
+                int duration = getResources().getInteger(R.integer.vibr_dur_digit);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) vibrator.vibrate(duration);
+                else vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
 
             container.append(digit.getText());
             field.setError(null);
