@@ -1,35 +1,46 @@
 # M1 Secure Development : Mobile applications
 
+### Our aswers
+
+- <b>Explain how you ensure user is the right one starting the app.</b>
+
+  When a user start for the first time the app, he will enter a password and a login which will be his. While he doesn't clear his local database these password and login would be the only identifiers that display the accounts.
+  The password is hashed and the database is encrypted.
+  
+- <b>How do you securely save user's data on your phone ?</b>
+
+The link with the API is secured with TLS exchanges.
+The encrypted database has a random local generated key which is loaded in the encrypted file. We used the garbage collector in order to keep in memory the data 
+as short a time as possible.
+The screenshots are forbidden not to leak any sensitive data.
+In addition, we add the enigma module which encrypted code and include false secret.
+
+- <b> How did you hide the API url ?</b>
+
+We used steganography to hide the API URL. We took advantage of having sound in our app to hide the data in the sound 'bip.wav' with LSB method.
+Moreover, the enigma module will encrypt the url in the apk.
+  
+- <b>Screenshots of your application </b>
+
+ <b>ADD SCREENSHOTS</b>
 
 
-### Réponse aux questions
 
-- Explain how you ensure user is the right one starting the app
-  - login + mdp hashé, enregistré dans db chiffrée
-- How do you securely save user's data on your phone ?
-  - db chiffrée, clé générée aléatoirement et localement, enregistrée dans fichier chiffré et mise en mémoire que le temps d'établir le lien avec la db (vidange mémoire)
-- How did you hide the API url ?
-  - Enigma ou voir comment mettre un fichier chiffré dans l'apk (idéalement, compatible avec fonctions de marc)
-- Screenshots of your application 
-  - voir fin de ce readme
+### General operation and features
 
+#### General operation
+On the launch of the app a user will see a home page which contains our logo and some instructions. On the click of the 'next' button, the login page is displayed.
+When a client wants to use our app he will on his first connection create his login and password which will be his until he cleared his local database.
 
+#### Features :
 
-### Fonctionnement et features
-
-fontionnement général
-
-features :
-
+- We added sounds and vibrations for a better user experience. Moreover, the user could choose if sound and vibrations preferences to have or not this feature.
+- The screenshots are forbidden in order to keep the user data secret.
 - ...
-- ...
-- ...
 
-
-
-### Maquette et preview
-
-
+### Model and preview
+In order to have an idea of what we wanted to have as an application we did a model:
+![Model](model.png)
 
 
 
@@ -37,7 +48,7 @@ features :
 
 
 
-
+# Instructions we had:
 
 Hey you all,  
 In this repository you will find everything you need to do the workshop.
