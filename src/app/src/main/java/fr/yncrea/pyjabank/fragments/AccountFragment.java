@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -57,7 +58,8 @@ public class AccountFragment extends Fragment {
 
         //shortcuts
         assert getActivity() != null && getContext() != null;
-        assert ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        assert actionBar != null;
         BankDatabase database = BankDatabase.getDatabase();
         User logged = AppActivity.getLogged();
 
@@ -65,9 +67,7 @@ public class AccountFragment extends Fragment {
         Button refresh = view.findViewById(R.id.frag_acc_btn_refresh);
 
         //initialisation
-        String str = logged.getName() + " " + logged.getLastname();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
-        str = null;
+        actionBar.setSubtitle(logged.getName() + " " + logged.getLastname());
 
         mAdapter = new AccountAdapter(getActivity(), view.findViewById(R.id.frag_acc_recycler_accounts), null);
 

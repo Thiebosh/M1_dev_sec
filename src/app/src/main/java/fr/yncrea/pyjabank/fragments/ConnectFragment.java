@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.PropertyPermission;
 import java.util.concurrent.Executors;
 
@@ -97,14 +99,14 @@ public class ConnectFragment extends Fragment {
 
         erase.setOnClickListener(v -> {
             CharSequence str = password.getText();
-            if (str.length() > 0) password.setText(str.subSequence(0, str.length()-1));
+            if (str != null && str.length() > 0) password.setText(str.subSequence(0, str.length()-1));
         });
 
         view.findViewById(R.id.frag_conn_const_global).setOnClickListener(v-> mKeypad.setVisibility(View.GONE));
 
         username.setOnFocusChangeListener((v, focus) -> {
             String msg = null;
-            if (!focus && isUsernameInvalid(username.getText().length())) {
+            if (!focus && isUsernameInvalid(Objects.requireNonNull(username.getText()).length())) {
                 msg = getString(R.string.frag_conn_error_username);
             }
             else mKeypad.setVisibility(View.GONE);//if (focus)
@@ -123,11 +125,11 @@ public class ConnectFragment extends Fragment {
             mKeypad.setVisibility(View.GONE);
 
             boolean isValid = true;
-            if (isUsernameInvalid(username.getText().length())) {
+            if (isUsernameInvalid(Objects.requireNonNull(username.getText()).length())) {
                 isValid = false;
                 usernameField.setError(getString(R.string.frag_conn_error_username));
             }
-            if (isPasswordInvalid(password.getText().length())) {
+            if (isPasswordInvalid(Objects.requireNonNull(password.getText()).length())) {
                 isValid = false;
                 passwordField.setError(getString(R.string.frag_conn_error_password));
             }
@@ -233,20 +235,30 @@ public class ConnectFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        assert getActivity() != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null;
+        assert getActivity() != null;
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        assert actionBar != null;
+
         String str = getString(R.string.app_default_user);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(str);
+        actionBar.setSubtitle(str);
     }
 
     private void setOnClick(final Button digit, final TextInputEditText container, final TextInputLayout field) {
+        assert getContext() != null;
+
         digit.setOnClickListener(v -> {
             if (AppActivity.isSound()) MediaPlayer.create(this.getContext(), R.raw.bip).start();
 
             if (AppActivity.isVibrate()) {
                 Vibrator vibrator = ((Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE));
                 int duration = getResources().getInteger(R.integer.vibr_dur_digit);
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) vibrator.vibrate(duration);
-                else vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+                }
+                else {
+                    //noinspection deprecation
+                    vibrator.vibrate(duration);
+                }
             }
 
             container.append(digit.getText());
@@ -255,10 +267,12 @@ public class ConnectFragment extends Fragment {
     }
 
     private boolean isUsernameInvalid(final int length) {
+        assert getContext() != null;
         return length < getContext().getResources().getInteger(R.integer.length_min_username);
     }
 
     private boolean isPasswordInvalid(final int length) {
+        assert getContext() != null;
         return length != getContext().getResources().getInteger(R.integer.length_min_password);
     }
 }

@@ -220,6 +220,8 @@ public class AppActivity extends AppCompatActivity implements FragmentSwitcher {
         loadFragment(new ConnectFragment(), true);
 
         mPrefs.edit().putBoolean(PREF_ACCESS_SEND_ONLINE, mSendOnline.isChecked()).apply();
+        mPrefs.edit().putBoolean(PREF_ACCESS_VIBRATE, mVibrate.isChecked()).apply();
+        mPrefs.edit().putBoolean(PREF_ACCESS_SOUND, mSound.isChecked()).apply();
     }
 
     @Override
