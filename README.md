@@ -1,5 +1,11 @@
 # M1 Secure Development : Mobile applications
 
+
+
+<u>**Disclaimer :**</u> the steganography library is from https://github.com/aagarwal1012/Image-Steganography-Library-Android. We add it to our project by hand because of gradle import's fails.
+
+
+
 ### Our aswers
 
 - <b>Explain how you ensure user is the right one starting the app.</b>
@@ -19,7 +25,7 @@ In addition, we add the enigma module which encrypted code and include false sec
 
 We used steganography to hide the API URL. We took advantage of having sound in our app to hide the data in the sound 'bip.wav' with LSB method.
 Moreover, the enigma module will encrypt the url in the apk.
-  
+
 - <b>Screenshots of your application </b>
 
  <b>ADD SCREENSHOTS</b>
