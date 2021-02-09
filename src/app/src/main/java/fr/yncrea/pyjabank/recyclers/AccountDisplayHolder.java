@@ -43,9 +43,9 @@ public class AccountDisplayHolder extends RecyclerView.ViewHolder {
     }
 
     public void setInitialDisplay(final AccountAdapter adapter, final Account account) {
-        if (this == adapter.getLastHolderSelected()) {//pos verif pour extremes
-            mContainer.callOnClick();
-        }
+        mContainer.setBackgroundColor(adapter.getLastHolderId() == getAdapterPosition() ?
+                MaterialColors.getColor(mContainer.getRootView(), R.attr.colorBackgroundFloating) :
+                Color.TRANSPARENT);
 
         mName.setText(account.getAccount_name());
         mAmount.setText(account.getAmountStr());
@@ -54,13 +54,14 @@ public class AccountDisplayHolder extends RecyclerView.ViewHolder {
     }
 
     public void setInteractions(final AccountAdapter adapter) {
-        mContainer.setOnClickListener(v -> {
-            if (this != adapter.getLastHolderSelected()) {
-                if (adapter.getLastHolderSelected() != null) {
+        if (!mContainer.hasOnClickListeners()) mContainer.setOnClickListener(v -> {
+            if (getAdapterPosition() != adapter.getLastHolderId()) {
+                if (adapter.getLastHolderId() != -1) {
                     adapter.getLastHolderSelected().getContainer().setBackgroundColor(Color.TRANSPARENT);
                 }
 
                 mContainer.setBackgroundColor(MaterialColors.getColor(v, R.attr.colorBackgroundFloating));
+                adapter.setLastHolderId(getAdapterPosition());
                 adapter.setLastHolderSelected(this);
             }
         });

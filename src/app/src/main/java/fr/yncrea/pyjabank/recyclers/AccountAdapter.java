@@ -25,6 +25,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final RecyclerView mContainer;
     private AccountDisplayHolder mLastHolderSelected = null;
+    private int mLastHolderId = -1;
 
     public AccountAdapter(final Activity activity, final RecyclerView container, final List<Account> accounts) {
         this.mActivity = activity;
@@ -51,6 +52,14 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setLastHolderSelected(final AccountDisplayHolder holder) {
         mLastHolderSelected = holder;
+    }
+
+    public int getLastHolderId() {
+        return mLastHolderId;
+    }
+
+    public void setLastHolderId(final int id) {
+        mLastHolderId = id;
     }
 
     @Override
