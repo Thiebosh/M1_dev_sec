@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -16,6 +18,9 @@ import java.util.concurrent.Executors;
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.database.BankDatabase;
+import okhttp3.CertificatePinner;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -42,6 +47,16 @@ public class RestApi<T> {
     private static final ApiRoutes apiInterface = new Retrofit.Builder()
             .baseUrl("https://6007f1a4309f8b0017ee5022.mockapi.io/api/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(
+                            "6007f1a4309f8b0017ee5022.mockapi.io",
+                            "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=")
+                    .build()).build())
+            /*.client(new OkHttpClient().newBuilder().addNetworkInterceptor(chain -> {
+                //tentative d'utilisation de "certificate transparency"
+                 //à la place du "certificate pinning"
+                Log.d("testy", "je suis dans ta connexion hehehrhrhehahrherhht");
+                return null;
+            }).build())*/
             .build()
             .create(ApiRoutes.class);
 
