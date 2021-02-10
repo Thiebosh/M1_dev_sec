@@ -1,12 +1,11 @@
 plugins {
     id 'com.android.application'
-    //id 'com.chrisney.enigma'
+    id 'com.chrisney.enigma'
 }
-apply plugin: 'com.chrisney.enigma'
 // Set Enigma options:
 enigma.enabled = false
-enigma.injectFakeKeys = true
-enigma.ignoredClasses = ["com.my.packagename.MainActivity.java"]
+enigma.injectFakeKeys = false
+//enigma.ignoredClasses = ["com.my.packagename.MainActivity.java"]
 
 android {
     compileSdkVersion 30
