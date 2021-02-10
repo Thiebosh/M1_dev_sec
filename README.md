@@ -2,29 +2,30 @@
 
 
 
-<u>**Disclaimer :**</u> the steganography library is from https://github.com/aagarwal1012/Image-Steganography-Library-Android. We add it to our project by hand because of gradle import's fails.
-
-
-
 ### Our aswers
 
 - <b>Explain how you ensure user is the right one starting the app.</b>
 
-  When a user start for the first time the app, he will enter a password and a login which will be his. While he doesn't clear his local database these password and login would be the only identifiers that display the accounts.
-  The password is hashed and the database is encrypted.
-  
+When a user start for the first time the app, he will enter a password and a login which will be his. While he doesn't clear his local database these password and login would be the only identifiers that display the accounts.
+The password is hashed and the database is encrypted.
+
+
+
 - <b>How do you securely save user's data on your phone ?</b>
 
 The link with the API is secured with TLS exchanges.
-The encrypted database has a random local generated key which is loaded in the encrypted file. We used the garbage collector in order to keep in memory the data 
-as short a time as possible.
+The encrypted database has a random local generated key which is loaded in the encrypted file. We used the garbage collector in order to keep in memory the data as short a time as possible.
 The screenshots are forbidden not to leak any sensitive data.
-In addition, we add the enigma module which encrypted code and include false secret.
+In addition, we add the enigma module which encrypted code and include false secret. **/!\ petit laïus sur le stockage des clés et de l'algo (AES) de chiffrement dans l'APK par enigma**
+
+
 
 - <b> How did you hide the API url ?</b>
 
 We used steganography to hide the API URL. We took advantage of having sound in our app to hide the data in the sound 'bip.wav' with LSB method.
 Moreover, the enigma module will encrypt the url in the apk.
+
+
 
 - <b>Screenshots of your application </b>
 
@@ -46,7 +47,7 @@ When a client wants to use our app he will on his first connection create his lo
 
 ### Model and preview
 In order to have an idea of what we wanted to have as an application we did a model:
-![Model](model.png)
+![Model](readme_ressources/model.png)
 
 
 
