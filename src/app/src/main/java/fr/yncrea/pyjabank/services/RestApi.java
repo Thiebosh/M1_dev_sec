@@ -45,8 +45,8 @@ public class RestApi<T> {
 
     private RestApi() {//not instanciable from outside
     }
-    
-    public static class Holder<T> {
+
+    public static class Holder {
         @SuppressLint("StaticFieldLeak")
         private static final RestApi INSTANCE = new RestApi<>(); //self-hosted instance
         private static boolean mIsBuild = false;
@@ -61,17 +61,14 @@ public class RestApi<T> {
             INSTANCE.mActivity = activity;
 
             String url = ImageStegano.decrypt(INSTANCE.mActivity.getResources(), R.drawable.resolution);
+            String pin = "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=";
 
             INSTANCE.mApiInterface = new Retrofit.Builder()
                     .baseUrl(url)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(
-                            url,
-                            "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=")
-                            .build()).build())
+                    .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(url,pin).build()).build())
                     /*.client(new OkHttpClient().newBuilder().addNetworkInterceptor(chain -> {
-                        //tentative d'utilisation de "certificate transparency"
-                         //à la place du "certificate pinning"
+                        //tentative d'utilisation de "certificate transparency" à la place du "certificate pinning"
                         Log.d("testy", "je suis dans ta connexion hehehrhrhehahrherhht");
                         return null;
                     }).build())*/
