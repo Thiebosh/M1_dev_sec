@@ -2,80 +2,10 @@
 
 
 
-### Our aswers
+Our goal was to create a secure application to see your bank accounts.   
 
-- <b>Explain how you ensure user is the right one starting the app.</b>
+## <u>Requirements</u>
 
-When a user start for the first time the app, he will enter a password and a login which will be his. While he doesn't clear his local database these password and login would be the only identifiers that display the accounts.
-The password is hashed and the database is encrypted.
-
-
-
-- <b>How do you securely save user's data on your phone ?</b>
-
-The link with the API is secured with TLS exchanges.
-The encrypted database has a random local generated key which is loaded in the encrypted file. We used the garbage collector in order to keep in memory the data as short a time as possible.
-The screenshots are forbidden not to leak any sensitive data.
-In addition, we add the enigma module which encrypted code and include false secret. **/!\ petit laïus sur le stockage des clés et de l'algo (AES) de chiffrement dans l'APK par enigma**
-
-
-
-- <b> How did you hide the API url ?</b>
-
-We used steganography to hide the API URL. We took advantage of having sound in our app to hide the data in the sound 'bip.wav' with LSB method.
-Moreover, the enigma module will encrypt the url in the apk.
-
-
-
-- <b>Screenshots of your application </b>
-
- <b>ADD SCREENSHOTS</b>
-
-
-
-### General operation and features
-
-#### General operation
-On the launch of the app a user will see a home page which contains our logo and some instructions. On the click of the 'next' button, the login page is displayed.
-When a client wants to use our app he will on his first connection create his login and password which will be his until he cleared his local database.
-
-#### Features :
-
-- We added sounds and vibrations for a better user experience. Moreover, the user could choose if sound and vibrations preferences to have or not this feature.
-- The screenshots are forbidden in order to keep the user data secret.
-- ...
-
-### Model and preview
-In order to have an idea of what we wanted to have as an application we did a model:
-![Model](readme_ressources/model.png)
-
-
-
-
-
-
-
-# Instructions we had:
-
-Hey you all,  
-In this repository you will find everything you need to do the workshop.
-
-## Report guidelines
-
-- You create a github/gitlab public project **only** containing:
-  - Your source code in a **src** folder
-  - <your_application>.apk
-  - README.md
-- You send your repository link **before 11pm59 on the 1th february 2021**. After this timeline, you will loose 1pts per hour.
-
-## Exercice
-
-Using Android Studio (or any editor of your choice), you will have to create a mobile application.  
-You can choose the language you want between Kotlin and Java.  
-
-The goal is to create a secure application to see your bank accounts.   
-
-### Requirements
 - This application must be available offline.
 - A refresh button allows the user to update its accounts.
 - Only the phone's user can start the app
@@ -83,6 +13,7 @@ The goal is to create a secure application to see your bank accounts.
 
 
 ### API
+
 https://6007f1a4309f8b0017ee5022.mockapi.io/api/m1/:endpoint
 
 
@@ -112,27 +43,57 @@ You can read and create new accounts. You cannot modify, nor delete.
 ```
 
 
-### README.md content
 
-- Explain how you ensure user is the right one starting the app
-- How do you securely save user's data on your phone ?
-- How did you hide the API url ?
-- Screenshots of your application 
+## <u>Our answers</u>
 
-### Report scoring
+- <b>Explain how you ensure user is the right one starting the app :</b>
 
-- Your README file contains answers to the asked questions (2pts)
+When the database is empty (first launch or after cleaning), the user define his username and password at the first connection. After that, theses credentials are the only ones able to enter the app. For defining his password, the user use a random generated keybard : with that, his "pattern" is never the same.
 
-Your APK will be audited in the same way as a classic mobile pentest 
-- You start with 10pts and you will loose points if:
-    - Your application doesn't respect requirements (-10pts)
-    - Api url is recoverable (-2pts)
-    - Your application can be accessed by any user (-2pts)
-    - Stored data can be recovered (-2pts)
-    - Permissions are too wide (-2pts)
-- The originality of your solution is scored on 3
-- The complexity of your solution is scored on 5
-- UX/UI will not be scored
 
+
+- <b>How do you securely save user's data on your phone ?</b>
+
+Firstly, the password defined by the user is encrypted before being stored in database.
+
+After that, at first connection and when refreshing data, we use secured Internet communication with TLS (by default since API 20 ; we are 30) and certificate pinning (see "certificate pinning" folder to use certif_pin.sh and getting key).
+
+When recovered, data are stored in database encrypted with sqlcypher. The database key is randomly generated in user's device at first use of the app and then stored in the shared preferences.
+
+All sensitive data (login, passwords, data retrieved by restApi...) are memory-secured, either by usage of the garbage collector (var = null) or with GuardedObject (for thread-used data)
+
+There are two more security mechanism when app is running. Firstly, the app does not authorize screen-shots when used. Secondly, when the app is paused, the connect page is automatically loaded, so even in the "recent app" panel, another user cannot see the account list.
+
+At APK building, we applied proguard for getting one-word methods and variables, in addition of enigma for encrypt strings in plain text with AES and random generated key. Little warning about that last point : enigma generate an EnigmaUtils class which store the list of keys (see https://github.com/christopherney/Enigma/blob/a03207395db839e189143e83d44e5a0501e81c7f/src/main/java/com/chrisney/enigma/tasks/InjectCodeTask.java) : then, it is more like a form of obfuscation.
+
+
+
+- <b> How did you hide the API url ?</b>
+
+We have tried to use steganography to hide the API URL. Since it didn't worked, we tried to simply transform string into image and to reverse the operation : we only obtained the image. Moreover, since the url is in plain text, the enigma module encrypt the URL in the APK, as mentioned before.
+
+
+
+- <b>~~Screenshots~~ Video of your application </b>
+
+ <b>/!\ ADD SCREENSHOTS</b>
+
+
+
+## <u>General operation and features</u>
+
+#### General operation
+On the launch of the app a user will see a home page which contains our logo and some instructions. On the click of the 'next' button, the login page is displayed.
+When a client wants to use our app he will on his first connection create his login and password which will be his until he cleared his local database.
+
+#### Features :
+
+- We added sounds and vibrations for a better user experience. Moreover, the user could choose if sound and vibrations preferences to have or not this feature.
+- The screenshots are forbidden in order to keep the user data secret.
+- ...
+
+### Model and preview
+In order to have an idea of what we wanted to have as an application we did a model:
+<img src="readme_ressources/model.png" alt="Model" style="zoom:20%;" />
 
 
