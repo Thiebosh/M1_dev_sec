@@ -81,7 +81,7 @@ public class AccountFragment extends Fragment {
             }
 
             getActivity().runOnUiThread(() -> refresh.setEnabled(false));
-            new RestApi<>(getActivity()).setHandler( //Routine de rafraichissement des données
+            RestApi.Holder.getInstance().setHandler( //Routine de rafraichissement des données
                 () -> Executors.newSingleThreadExecutor().execute(() -> {
                     List<Account> accounts = database.accountDao().getAll(/*AppActivity.mLogged.getUsername()*/);
                     String str2 = getString(R.string.toast_api_success_accounts, accounts.size());

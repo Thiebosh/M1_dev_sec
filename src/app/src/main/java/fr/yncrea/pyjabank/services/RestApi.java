@@ -1,27 +1,24 @@
 package fr.yncrea.pyjabank.services;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fr.yncrea.pyjabank.R;
+import fr.yncrea.pyjabank.database.BankDatabase;
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.database.models.User;
-import fr.yncrea.pyjabank.database.BankDatabase;
 import okhttp3.CertificatePinner;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,20 +31,6 @@ import retrofit2.http.POST;
 
 public class RestApi<T> {
 
-/*
-    private RestApi() {
-
-    }
-
-    private static class Holder
-    {
-        private final static RestApi instance = new RestApi();
-    }
-
-    public static RestApi getInstance() {
-        return Holder.instance;
-    }
-*/
     private interface ApiRoutes { //Create Read Update Delete
         @GET("m1/config/1")
         Call<User> readUser();//(@Field("username") String username, @Field("password") String password)
@@ -60,24 +43,47 @@ public class RestApi<T> {
         Call<JsonObject> createAccount(@Field("account") Account account);//(@Field("username") String username, ...)
     }
 
-    private static final ApiRoutes apiInterface = new Retrofit.Builder()
-            .baseUrl("https://6007f1a4309f8b0017ee5022.mockapi.io/api/")
-            //.baseUrl(ImageStegano.decrypt(Resources.getSystem(), R.drawable.resolution))
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(
-                            "6007f1a4309f8b0017ee5022.mockapi.io",
-                            "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=")
-                    .build()).build())
-            /*.client(new OkHttpClient().newBuilder().addNetworkInterceptor(chain -> {
-                //tentative d'utilisation de "certificate transparency"
-                 //à la place du "certificate pinning"
-                Log.d("testy", "je suis dans ta connexion hehehrhrhehahrherhht");
-                return null;
-            }).build())*/
-            .build()
-            .create(ApiRoutes.class);
+    private RestApi() {//not instanciable from outside
+    }
+    
+    public static class Holder<T> {
+        @SuppressLint("StaticFieldLeak")
+        private static final RestApi INSTANCE = new RestApi<>(); //self-hosted instance
+        private static boolean mIsBuild = false;
 
-    private final Activity mActivity;
+        public static RestApi getInstance() {//instance's getter (singleton)
+            return mIsBuild ? INSTANCE : null;
+        }
+
+        public static void buildInstance(final Activity activity) {//new constructor
+            mIsBuild = true;
+
+            INSTANCE.mActivity = activity;
+
+            String url = ImageStegano.decrypt(INSTANCE.mActivity.getResources(), R.drawable.resolution);
+
+            INSTANCE.mApiInterface = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(
+                            url,
+                            "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=")
+                            .build()).build())
+                    /*.client(new OkHttpClient().newBuilder().addNetworkInterceptor(chain -> {
+                        //tentative d'utilisation de "certificate transparency"
+                         //à la place du "certificate pinning"
+                        Log.d("testy", "je suis dans ta connexion hehehrhrhehahrherhht");
+                        return null;
+                    }).build())*/
+                    .build()
+                    .create(ApiRoutes.class);
+        }
+
+    }
+
+    private ApiRoutes mApiInterface;
+    protected Activity mActivity;
+
     private static final Executor mBackgroundThread = Executors.newSingleThreadExecutor();
 
     private int mFlag = -1;
@@ -94,9 +100,6 @@ public class RestApi<T> {
     private static final String ERROR_FLAG = "Unexpected flag";
     private static final String ERROR_TYPE = "Unexpected type of data";
 
-    public RestApi(final Activity activity) {
-        mActivity = activity;
-    }
 
     public RestApi<T> setHandler(final Runnable successFunc,
                                  final Runnable emptyFunc,
@@ -126,21 +129,21 @@ public class RestApi<T> {
     @SuppressWarnings("unchecked")
     public void retrieveStoreUser(@NonNull final BankDatabase db, final String username, final String password) {
         mFlag = FLAG_READ_USER;
-        retrieveStoreData((Call<T>) apiInterface.readUser(), db,
+        retrieveStoreData((Call<T>) mApiInterface.readUser(), db,
                 username, password, null);
     }
 
     @SuppressWarnings("unchecked")
     public void retrieveStoreAccountList(@NonNull final BankDatabase db/*, final String username*/) {
         mFlag = FLAG_READ_ACCOUNT;
-        retrieveStoreData((Call<T>) apiInterface.readAccounts(/*username*/), db,
+        retrieveStoreData((Call<T>) mApiInterface.readAccounts(/*username*/), db,
                 null, null, null);
     }
 
     @SuppressWarnings("unchecked")
     public void sendStoreAccount(@NonNull final BankDatabase db, @NonNull final Account account) {
         mFlag = FLAG_SEND_ACCOUNT;
-        retrieveStoreData((Call<T>) apiInterface.createAccount(account), db,
+        retrieveStoreData((Call<T>) mApiInterface.createAccount(account), db,
                 null, null, account);
     }
 

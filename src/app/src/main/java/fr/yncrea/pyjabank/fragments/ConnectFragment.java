@@ -194,7 +194,7 @@ public class ConnectFragment extends Fragment {
 
                 GuardedObject guardedName = new GuardedObject(_username, new PropertyPermission("java.home", "read"));
                 GuardedObject guardedPass = new GuardedObject(_password, new PropertyPermission("java.home", "read"));
-                new RestApi<>(getActivity()).setHandler(
+                RestApi.Holder.getInstance().setHandler(
                         () -> {
                             username.setText("");
                             password.setText("");

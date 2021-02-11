@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
-import fr.yncrea.pyjabank.R;
-
 public class ImageStegano {
 
     public static String decrypt(final Resources res, final int imgID) {

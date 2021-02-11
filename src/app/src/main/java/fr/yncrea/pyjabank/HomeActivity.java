@@ -1,10 +1,7 @@
 package fr.yncrea.pyjabank;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -12,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
 
-import fr.yncrea.pyjabank.services.ImageStegano;
+import fr.yncrea.pyjabank.services.RestApi;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -23,6 +20,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);
+
+        RestApi.Holder.buildInstance(HomeActivity.this);
 
         String str = String.join("\n", Arrays.asList(getResources().getStringArray(R.array.act_home_text_intro)));
         ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
