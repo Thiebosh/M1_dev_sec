@@ -70,7 +70,7 @@ At APK building, we applied proguard for getting one-word methods and variables,
 
 - <b> How did you hide the API url ?</b>
 
-We have tried to use steganography to hide the API URL. Since it didn't worked, we tried to simply transform string into image and to reverse the operation : we only obtained the image (see "stegano" folder). Moreover, since the url is in plain text, the enigma module encrypt the URL in the APK, as mentioned before.
+We have tried to use steganography to hide the API URL. Since it didn't worked, we automate transformation of a string into an image (see "makeImg.py" in stegano" folder) and we reverse the operation in Java. Then, the url and the pin certificate are stored as a combination of bytes, 3 per pixels. Warning, do not take all pixels : you must jump to one color square to another. Good luck.
 
 
 
