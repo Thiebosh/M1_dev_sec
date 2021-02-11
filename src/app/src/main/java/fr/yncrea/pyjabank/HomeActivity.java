@@ -38,18 +38,21 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("testy", ImageStegano.unsinagaz(var));
         Log.d("testy", ImageStegano.binToString(var));*/
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.oute);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image844);
+
+        //bitmap = profileImage.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
         Log.d("testy", bitmap.getWidth()+" "+bitmap.getHeight()+"");
 
-        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+        //int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
 
-        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, 12, 12);
+        //bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, 12, 12);
 
+        /*
         StringBuilder tmp = new StringBuilder();
         for (int elt: pixels) {
             tmp.append(elt).append(" ");
         }
-        Log.d("testy", tmp.toString());
+        Log.d("testy", tmp.toString());*/
 
         /*Log.d("testy", bitmap.getWidth()+" * "+bitmap.getHeight());
         for (int y = 0; y < bitmap.getHeight(); ++y) {
