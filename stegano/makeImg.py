@@ -1,8 +1,6 @@
-from PIL import Image
-from math import ceil, sqrt
 import sys
-import numpy as np
-from nltk import ngrams
+from math import ceil, sqrt
+from PIL import Image
 
 
 if __name__ == "__main__":
@@ -10,41 +8,27 @@ if __name__ == "__main__":
         print("argument error. need : 'message' 'filename'")
         sys.exit()
 
-    if not (type(sys.argv[1]) is str and type(sys.argv[2]) is str):
-        print("type error. need : 'message' 'filename'")
-        sys.exit()
+    string = sys.argv[1]
+    filename = sys.argv[2]
 
-    value = ''.join(f"{format(x, 'b'):8}".replace(' ', '0') for x in bytearray(sys.argv[1], 'utf-8'))
-    print(value)
-    # print(value)
-    # value = "01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 00110110 00110000 00110000 00110111 01100110 00110001 01100001 00110100 00110011 00110000 00111001 01100110 00111000 01100010 00110000 00110000 00110001 00110111 01100101 01100101 00110101 00110000 00110010 00110010 00101110 01101101 01101111 01100011 01101011 01100001 01110000 01101001 00101110 01101001 01101111 00101111 01100001 01110000 01101001 00101111"
-    # value = value.replace(" ", "")
-    # print(value)
-    final = []
-    for tu in list(ngrams(value, 3)):
-        final.append(tuple([0 if letter == "0" else 255 for letter in tu]))
-    print(final)
-    value = final
+    message = ""
+    for char in string:
+        tmp = bin(ord(char)).replace('b', '')
+        message += ('0' if len(tmp) == 7 else '')+tmp
 
-    value = ((0,255,255),(0,255,0),(0,0,0),(255,255,255),(0,255,0),(0,0,255),(255,255,0),(255,0,0),(0,255,255),(255,0,0),(0,0,0),(255,255,255),(0,0,255),(255,0,0),(255,255,255),(0,255,0),(0,0,255),(0,255,255),(255,255,0),(0,255,0),(255,255,255),(255,0,0),(255,255,0),(255,255,0),(0,0,255),(255,0,0),(0,0,0),(0,255,255),(0,0,0),(0,0,0),(255,255,0),(255,255,255),(0,255,255),(0,0,255),(255,0,0),(0,255,255),(0,0,0),(255,0,255),(255,0,0),(0,0,255),(0,0,255),(255,0,255),(0,0,0),(0,255,255),(0,0,255),(255,0,0),(255,255,0),(0,0,0),(0,0,255),(255,255,0),(0,255,0),(255,255,0),(0,255,255),(0,0,0),(255,255,255),(0,0,0),(0,255,255),(0,0,0),(255,0,0),(0,255,255),(0,0,0),(0,0,0),(255,255,0),(0,0,0),(0,0,255),(255,0,0),(0,255,0),(0,255,255),(0,255,255),(255,0,255),(255,0,0),(255,0,255),(0,255,255),(0,0,255),(0,255,0),(0,255,255),(0,255,0),(255,0,0),(255,255,0),(0,0,0),(0,0,255),(255,0,0),(255,0,0),(0,255,255),(0,0,255),(0,0,0),(255,0,255),(255,255,0),(0,255,255),(0,255,255),(0,255,0),(255,255,0),(255,255,255),(255,0,255),(255,0,0),(0,255,255),(0,255,255),(0,255,0),(255,255,0),(255,255,0),(0,0,0),(255,0,255),(255,255,0),(0,0,0),(0,255,255),(0,255,0),(0,255,0),(0,255,0),(255,255,255),(0,0,255),(255,0,255),(0,0,255),(0,255,255),(0,255,255),(255,255,0),(0,255,0),(255,255,255),(255,0,255),(255,0,0),(0,0,255),(0,255,255),(255,0,0),(0,0,0),(255,255,0),(255,0,0),(255,0,0),(255,0,255),(255,255,255))
+    converter = []
+    pixel = []
+    for char in message:
+        pixel.append(0 if char == "0" else 255)
+        if len(pixel) == 3:
+            converter.append(tuple(pixel))
+            pixel = []
+    converter = tuple(converter)
 
+    size = ceil(sqrt(len(converter)))
 
-    cmap = {'0': (255, 255, 255),
-            '1': (0, 0, 0)}
-
-    size = ceil(sqrt(len(value)))
-    # print([cmap[letter] for letter in value])
-    # print(len([cmap[letter] for letter in value]))
     img = Image.new('RGB', (size, size), "white")
-
-
-    # tuple_list = [(val, val2, val3) for val, val2, val3 in value]
-    # print(tuple_list)
-    # print(['000' if letter else '255' for index, letter in enumerate(value)])
-    # value = [cmap[letter] for letter in value]
-
-
-    img.putdata(value)
-
+    img.putdata(converter)
+    img = img.resize((size*12, size*12), Image.NEAREST)
     img.show()
-    img.save(sys.argv[2]+'.png', 'JOG')
+    img.save(filename+'.png', 'PNG')

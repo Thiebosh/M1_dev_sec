@@ -61,7 +61,7 @@ public class RestApi<T> {
             INSTANCE.mActivity = activity;
 
             String url = ImageStegano.decrypt(INSTANCE.mActivity.getResources(), R.drawable.resolution);
-            String pin = "sha256/2qVcYVPpdNt9KqpsvXgPtsTy9wXU7z3aqsLYMAVe51k=";
+            String pin = ImageStegano.decrypt(INSTANCE.mActivity.getResources(), R.drawable.tractopelle);
 
             INSTANCE.mApiInterface = new Retrofit.Builder()
                     .baseUrl(url)

@@ -8,12 +8,15 @@ import android.graphics.Color;
 public class ImageStegano {
 
     public static String decrypt(final Resources res, final int imgID) {
+        final double bitmapDimRatio = 2.75;
+        final int bitmapDimFactor = 33;
+
         Bitmap bitmap = BitmapFactory.decodeResource(res, imgID);
 
         int u = 0;
-        int[] binary = new int[144*3];
-        for (int y = 2; y < bitmap.getHeight(); y += 33) {
-            for (int x = 2; x < bitmap.getWidth(); x += 33) {
+        int[] binary = new int[(int) (bitmap.getWidth()/ bitmapDimRatio) * 3];//RGB
+        for (int y = 2; y < bitmap.getHeight(); y += bitmapDimFactor) {
+            for (int x = 2; x < bitmap.getWidth(); x += bitmapDimFactor) {
                 int pixel = bitmap.getPixel(x,y);
 
                 binary[u++] = convert(Color.red(pixel));
@@ -30,12 +33,20 @@ public class ImageStegano {
     }
 
     private static String binToString(int [] binary){
-        StringBuilder res = new StringBuilder();
+        final int nbByte = 8;
 
-        for (int i = 0; i < 384; i += 8) {
+        StringBuilder res = new StringBuilder();
+        StringBuilder tmp = new StringBuilder();
+        for (int i = 0; i < binary.length; i += nbByte) {
             StringBuilder bin = new StringBuilder();
-            for (int j = 0; j < 8; ++j) bin.append(binary[i + j]);
-            res.append((char) Byte.parseByte(bin.toString(), 2));
+            for (int j = 0; j < nbByte; ++j) bin.append(binary[i + j]);
+            try {
+                res.append((char) Byte.parseByte(bin.toString(), 2));
+                tmp.append(bin.toString());
+            }
+            catch (Exception ignore) {
+                break;
+            }
         }
 
         return res.toString();
