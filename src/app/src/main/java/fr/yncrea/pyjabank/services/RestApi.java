@@ -31,7 +31,20 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public class RestApi<T> {
+/*
+    private RestApi() {
 
+    }
+
+    private static class Holder
+    {
+        private final static RestApi instance = new RestApi();
+    }
+
+    public static RestApi getInstance() {
+        return Holder.instance;
+    }
+*/
     private interface ApiRoutes { //Create Read Update Delete
         @GET("m1/config/1")
         Call<User> readUser();//(@Field("username") String username, @Field("password") String password)
