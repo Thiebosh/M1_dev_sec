@@ -4,13 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteBlobTooBigException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 
 import fr.yncrea.pyjabank.R;
 
@@ -68,5 +71,49 @@ public class ImageStegano {
         return res;
     }
 
+    public static String decrypt(Bitmap bitmap){
+        int u = 0;
+
+       int [] binarysecret = new int[144*3];
+        for (int y = 2; y < bitmap.getHeight(); y = y + 33) {
+            for (int x = 2; x < bitmap.getWidth(); x = x + 33) {
+
+                int pixel = bitmap.getPixel(x,y);
+                //Log.d("testy", "("+ Color.red(pixel)+","+Color.green(pixel)+","+Color.blue(pixel)+")");
+                binarysecret[u] = convert(Color.red(pixel));
+                binarysecret[u+1] = convert(Color.green(pixel));
+                binarysecret[u+2] = convert(Color.blue(pixel));
+                u += 3;
+            }
+        }
+        return  binToString(binToByte(binarysecret));
+    }
+
+    private static int convert(int color){
+        if(color == 0){
+            return 0;
+        }
+        else{
+            return 1;
+        }
+    }
+
+    private static byte[] binToByte(int [] binary){
+        String bin= "";
+        String url = "";
+        int u = 0;
+        byte[] hey = new byte[48];
+        for (int i = 0; i < 384; i += 8){
+            for (int j = 0; j < 8; j++){
+                bin += binary[i+j];
+
+            }
+
+            hey[u] = Byte.parseByte(bin, 2);
+            u++;
+            bin = "";
+        }
+        return hey;
+    }
 
 }

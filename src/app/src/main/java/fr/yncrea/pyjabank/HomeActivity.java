@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
+import fr.yncrea.pyjabank.stegano.ImageStegano;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -34,38 +36,10 @@ public class HomeActivity extends AppCompatActivity {
             startActivity((new Intent(HomeActivity.this, AppActivity.class))
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 
-        /*byte[] var = new ImageStegano(BitmapFactory.decodeResource(getResources(), R.drawable.out)).tractopelle();
-        Log.d("testy", ImageStegano.unsinagaz(var));
-        Log.d("testy", ImageStegano.binToString(var));*/
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image844);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.resolution);
+        String url = ImageStegano.decrypt(bitmap);
 
-        //bitmap = profileImage.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-        Log.d("testy", bitmap.getWidth()+" "+bitmap.getHeight()+"");
-
-        //int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-
-        //bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, 12, 12);
-
-        /*
-        StringBuilder tmp = new StringBuilder();
-        for (int elt: pixels) {
-            tmp.append(elt).append(" ");
-        }
-        Log.d("testy", tmp.toString());*/
-
-        /*Log.d("testy", bitmap.getWidth()+" * "+bitmap.getHeight());
-        for (int y = 0; y < bitmap.getHeight(); ++y) {
-            for (int x = 0; x < bitmap.getWidth(); ++x) {
-                int pixel = bitmap.getPixel(x,y);
-                Log.d("testy", "("+Color.red(pixel)+","+Color.blue(pixel)+","+Color.green(pixel)+")");
-            }
-            Log.d("testy", "newline");
-        }*/
-
-        //((0,255,255),(0,255,0),(0,0,0),(255,255,255),(0,255,0),(0,0,255),(255,255,0),(255,0,0),(0,255,255),(255,0,0),(0,0,0),(255,255,255),(0,0,255),(255,0,0),(255,255,255),(0,255,0),(0,0,255),(0,255,255),(255,255,0),(0,255,0),(255,255,255),(255,0,0),(255,255,0),(255,255,0),(0,0,255),(255,0,0),(0,0,0),(0,255,255),(0,0,0),(0,0,0),(255,255,0),(255,255,255),(0,255,255),(0,0,255),(255,0,0),(0,255,255),(0,0,0),(255,0,255),(255,0,0),(0,0,255),(0,0,255),(255,0,255),(0,0,0),(0,255,255),(0,0,255),(255,0,0),(255,255,0),(0,0,0),(0,0,255),(255,255,0),(0,255,0),(255,255,0),(0,255,255),(0,0,0),(255,255,255),(0,0,0),(0,255,255),(0,0,0),(255,0,0),(0,255,255),(0,0,0),(0,0,0),(255,255,0),(0,0,0),(0,0,255),(255,0,0),(0,255,0),(0,255,255),(0,255,255),(255,0,255),(255,0,0),(255,0,255),(0,255,255),(0,0,255),(0,255,0),(0,255,255),(0,255,0),(255,0,0),(255,255,0),(0,0,0),(0,0,255),(255,0,0),(255,0,0),(0,255,255),(0,0,255),(0,0,0),(255,0,255),(255,255,0),(0,255,255),(0,255,255),(0,255,0),(255,255,0),(255,255,255),(255,0,255),(255,0,0),(0,255,255),(0,255,255),(0,255,0),(255,255,0),(255,255,0),(0,0,0),(255,0,255),(255,255,0),(0,0,0),(0,255,255),(0,255,0),(0,255,0),(0,255,0),(255,255,255),(0,0,255),(255,0,255),(0,0,255),(0,255,255),(0,255,255),(255,255,0),(0,255,0),(255,255,255),(255,0,255),(255,0,0),(0,0,255),(0,255,255),(255,0,0),(0,0,0),(255,255,0),(255,0,0),(255,0,0),(255,0,255),(255,255,255))
-
-        //Log.d("testy", getBitmapPixels(bitmap, 0,0, 12,12).length+"");
     }
 
 
