@@ -91,6 +91,7 @@ When a client wants to use our app he will on his first connection create his lo
 #### Features :
 
 - We added sounds and vibrations for a better user experience. Moreover, the user can choose whatever he wants sound and vibrations or not.
+- We support both English (by default) and French languages, depending of your device's configuration
 - The screen-shots are forbidden in order to keep the user data secret.
 - The user can create as many accounts as he wants. By defaults, theses accounts are not added online. When sent online and refreshed, created account's data will be replaced by randomly generated data.
 - The user can clear his whole database for simulate a new install of the application. Hey, it's a demonstrator, isn't it?

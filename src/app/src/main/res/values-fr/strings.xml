@@ -14,6 +14,24 @@
     <!-- Activities -->
     <string name="act_home_button_next">Suivant</string>
 
+    <string-array name="act_home_text_intro">
+        <item>"PyjaBank est un démonstrateur sur le thème du développement applicatif sécurité."</item>
+        <item> </item>
+        <item>"Pour l'exemple, nous manipulerons des données bancaires simulées. \"Vos\" données sont stockées dans une base de données (bdd) chiffrée."</item>
+        <item> </item>
+        <item>"Si vous vous connectez avec une bdd vide, les identifiant utilisés seront enregistrés et utilisés comme référence."</item>
+        <item> </item>
+        <item>"Il ne peut y avoir qu'un seul utilisateur enregistré : pour réinitialiser ses informations, videz la bdd. Vous pouvez la vider à tout moment."</item>
+        <item> </item>
+        <item>"La récupération des données passe par une API rest, avec une connexion chiffrée et vérifiée par certificat."</item>
+        <item> </item>
+        <item>"Les captures d'écran ne sont pas autorisées sur l'application pour assurer la confidentialité de ces informations."</item>
+        <item> </item>
+        <item>"Une fois connecté, sortir de l'application de quelque façon que ce soit (extinction d'écran, retour à l'écran d'accueil, applications ouvertes) vous déconnectera automatiquement."</item>
+        <item> </item>
+        <item>"La langue utilisée par l'application dépend des paramètres de votre téléphone (anglais par défaut)."</item>
+    </string-array>
+
 
     <!-- Fragments -->
     <string name="frag_conn_hint_username">Votre pseudonyme</string>
