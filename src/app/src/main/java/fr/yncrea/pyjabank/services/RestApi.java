@@ -1,6 +1,7 @@
 package fr.yncrea.pyjabank.services;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import fr.yncrea.pyjabank.R;
 import fr.yncrea.pyjabank.database.models.Account;
 import fr.yncrea.pyjabank.database.models.User;
 import fr.yncrea.pyjabank.database.BankDatabase;
@@ -31,6 +33,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public class RestApi<T> {
+
 /*
     private RestApi() {
 
@@ -59,6 +62,7 @@ public class RestApi<T> {
 
     private static final ApiRoutes apiInterface = new Retrofit.Builder()
             .baseUrl("https://6007f1a4309f8b0017ee5022.mockapi.io/api/")
+            //.baseUrl(ImageStegano.decrypt(Resources.getSystem(), R.drawable.resolution))
             .addConverterFactory(GsonConverterFactory.create())
             .client(new OkHttpClient.Builder().certificatePinner(new CertificatePinner.Builder().add(
                             "6007f1a4309f8b0017ee5022.mockapi.io",
