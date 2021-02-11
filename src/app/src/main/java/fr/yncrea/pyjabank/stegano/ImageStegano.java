@@ -68,9 +68,4 @@ public class ImageStegano {
         return res;
     }
 
-    public Bitmap encode(String msg){
-        byte [] imageBytes 
-    }
-
-
 }
