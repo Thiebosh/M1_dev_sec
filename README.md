@@ -76,7 +76,19 @@ We have tried to use steganography to hide the API URL. Since it didn't worked, 
 
 - <b>~~Screenshots~~ Video of your application </b>
 
- <b>/!\ ADD SCREENSHOTS</b>
+#### Scenario 1 : first connection and persistence
+
+
+
+#### Scenario 2 : data suppression
+
+
+
+#### Scenario 3 : life cycle security
+
+
+
+#### Scenario 4 : features (login/password security, anti screen, light/dark themes, parameters)
 
 
 
