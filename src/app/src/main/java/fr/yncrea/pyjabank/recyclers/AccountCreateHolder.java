@@ -114,7 +114,7 @@ public class AccountCreateHolder extends RecyclerView.ViewHolder {
             adapter.addAccount(account);
 
             if (AppActivity.isSendOnline()) {
-                new RestApi<>(activity).sendStoreAccount(BankDatabase.getDatabase(), account);
+                RestApi.Holder.getInstance().sendStoreAccount(BankDatabase.getDatabase(), account);
             }
             else {
                 Executors.newSingleThreadExecutor().execute(() ->
