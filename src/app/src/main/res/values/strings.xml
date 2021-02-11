@@ -19,20 +19,13 @@
     <string name="act_home_button_next">Next</string>
 
     <string-array name="act_home_text_intro">
-        <item>"PyjaBank is a demonstrator on the theme of security application development."</item>
-        <item> </item>
-        <item>"For the example, we will handle simulated bank data. \"Your\" data is stored in an encrypted database (bdd)."</item>
-        <item> </item>
-        <item>"If you connect with an empty database, the username used will be saved and used as a reference."</item>
-        <item> </item>
-        <item>"There can only be one registered user: to reset their information, empty the database. You can empty it at any time."</item>
-        <item> </item>
-        <item>"Data recovery goes through a rest API, with an encrypted connection verified by certificate."</item>
-        <item> </item>
-        <item>"Screenshots are not allowed on the app to ensure the confidentiality of this information."</item>
-        <item> </item>
-        <item>"Once logged in, exiting the application in any way (screen off, return to the home screen, open applications) will automatically log you out."</item>
-        <item> </item>
+        <item>"PyjaBank is a demonstrator on the theme of security application development.\n\n"</item>
+        <item>"For the example, we will handle simulated bank data. \"Your\" data is stored in an encrypted database (bdd).\n\n"</item>
+        <item>"If you connect with an empty database, the username used will be saved and used as a reference.\n\n"</item>
+        <item>"There can only be one registered user: to reset their information, empty the database. You can empty it at any time.\n\n"</item>
+        <item>"Data recovery goes through a rest API, with an encrypted connection verified by certificate.\n\n"</item>
+        <item>"Screenshots are not allowed on the app to ensure the confidentiality of this information.\n\n"</item>
+        <item>"Once logged in, exiting the application in any way (screen off, return to the home screen, open applications) will automatically log you out.\n\n"</item>
         <item>"The language used by the application depends on your phone settings (English by default)."</item>
     </string-array>
 

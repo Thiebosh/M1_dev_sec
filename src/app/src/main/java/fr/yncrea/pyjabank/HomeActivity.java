@@ -23,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RestApi.Holder.buildInstance(HomeActivity.this);
 
-        String str = String.join("\n", Arrays.asList(getResources().getStringArray(R.array.act_home_text_intro)));
+        String str = String.join("", Arrays.asList(getResources().getStringArray(R.array.act_home_text_intro)));
         ((TextView) findViewById(R.id.act_home_text_intro)).setText(str);
 
         findViewById(R.id.act_home_button_next).setOnClickListener(v ->
