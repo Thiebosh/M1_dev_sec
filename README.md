@@ -78,19 +78,19 @@ We have tried to use steganography to hide the API URL. Since it didn't worked, 
 
 #### Scenario 1 : first connection and persistence
 
-
+<img src="readme_ressources/script1.gif" alt="script1" style="zoom:60%;" />
 
 #### Scenario 2 : data suppression
 
-
+<img src="readme_ressources/script2.gif" alt="script2" style="zoom:60%;" />
 
 #### Scenario 3 : life cycle security
 
-
+<img src="readme_ressources/script3.gif" alt="script3" style="zoom:60%;" />
 
 #### Scenario 4 : features (login/password security, anti screen, light/dark themes, parameters)
 
-
+<img src="readme_ressources/script4.gif" alt="script4" style="zoom:60%;" />
 
 ## <u>General operation and features</u>
 
