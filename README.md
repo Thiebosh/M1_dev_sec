@@ -60,7 +60,7 @@ After that, at first connection and when refreshing data, we use secured Interne
 
 When recovered, data are stored in database encrypted with sqlcypher. The database key is randomly generated in user's device at first use of the app and then stored in the shared preferences.
 
-All sensitive data (login, passwords, data retrieved by restApi...) are memory-secured, either by usage of the garbage collector (var = null) or with GuardedObject (for thread-used data)
+All sensitive data (login, passwords, data retrieved by restApi...) are memory-secured, either by usage of the garbage collector (var = null) or with GuardedObject (for in-thread usage)
 
 There are two more security mechanism when app is running. Firstly, the app does not authorize screen-shots when used. Secondly, when the app is paused, the connect page is automatically loaded, so even in the "recent app" panel, another user cannot see the account list.
 
@@ -70,7 +70,7 @@ At APK building, we applied proguard for getting one-word methods and variables,
 
 - <b> How did you hide the API url ?</b>
 
-We have tried to use steganography to hide the API URL. Since it didn't worked, we tried to simply transform string into image and to reverse the operation : we only obtained the image. Moreover, since the url is in plain text, the enigma module encrypt the URL in the APK, as mentioned before.
+We have tried to use steganography to hide the API URL. Since it didn't worked, we tried to simply transform string into image and to reverse the operation : we only obtained the image (see "stegano" folder). Moreover, since the url is in plain text, the enigma module encrypt the URL in the APK, as mentioned before.
 
 
 
@@ -83,17 +83,22 @@ We have tried to use steganography to hide the API URL. Since it didn't worked, 
 ## <u>General operation and features</u>
 
 #### General operation
-On the launch of the app a user will see a home page which contains our logo and some instructions. On the click of the 'next' button, the login page is displayed.
+On the launch of the app a user will see a home page which contains our logo and some informations. On the click of the 'next' button, the login page is displayed.
 When a client wants to use our app he will on his first connection create his login and password which will be his until he cleared his local database.
+
+
 
 #### Features :
 
-- We added sounds and vibrations for a better user experience. Moreover, the user could choose if sound and vibrations preferences to have or not this feature.
-- The screenshots are forbidden in order to keep the user data secret.
-- ...
+- We added sounds and vibrations for a better user experience. Moreover, the user can choose whatever he wants sound and vibrations or not.
+- The screen-shots are forbidden in order to keep the user data secret.
+- The user can create as many accounts as he wants. By defaults, theses accounts are not added online. When sent online and refreshed, created account's data will be replaced by randomly generated data.
+- The user can clear his whole database for simulate a new install of the application. Hey, it's a demonstrator, isn't it?
 
-### Model and preview
-In order to have an idea of what we wanted to have as an application we did a model:
+
+
+### Preview model
+We started by make a draft of our application in order to respond to ours requirements :
 <img src="readme_ressources/model.png" alt="Model" style="zoom:20%;" />
 
 
